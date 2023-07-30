@@ -1,0 +1,13 @@
+[tool.isort]
+profile = "black"
+line_length = 90
+
+[tool.pytest.ini_options]
+addopts = """
+--cov-report term-missing \
+--cov src/ai_news_digest -ra"""
+
+[tool.coverage.report]
+fail_under = 0
+show_missing = true
+exclude_lines = ["pragma: no cover", "raise NotImplementedError"]

@@ -1,0 +1,98 @@
+exclude: |
+    (?x)^(
+        .*__init__.py$|
+        .*setup.py$|
+    )$
+
+repos:
+
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+    -   id: check-yaml
+        args: ['--unsafe']
+    -   id: end-of-file-fixer
+    -   id: mixed-line-ending
+        args: ['--fix=lf']
+    -   id: trailing-whitespace
+    -   id: check-added-large-files
+        args: ['--maxkb=800']
+    -   id: check-json
+
+-   repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+    -   id: detect-secrets
+        name: 'detect-secrets'
+        args: ['--exclude-files', '.*\.ipynb$', ]
+    -   id: detect-secrets
+        name: 'detect-secrets-jupyter'
+        args: [
+            '--exclude-files', '.*[^i][^p][^y][^n][^b]$',
+            '--exclude-lines', '"(hash|id|image/\w+)":.*',
+        ]
+
+-   repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+    -   id: black
+        additional_dependencies: ["toml"]
+        language_version: python3.10
+
+-   repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+    -   id: isort
+        additional_dependencies: ["toml"]
+        files: "\\.(py)$"
+        args: [--settings-path=pyproject.toml]
+
+-   repo: https://github.com/PyCQA/flake8
+    rev: 6.0.0
+    hooks:
+    -   id: flake8
+        additional_dependencies: [
+            'flake8-docstrings==1.5.0',
+            'flake8-isort',
+        ]
+        # args: ['--max-line-length', '100']
+        # exclude: ^test_data/|bumpity.py$
+
+# -   repo: https://github.com/pre-commit/mirrors-mypy
+#     rev: v0.991
+#     hooks:
+#     -   id: mypy
+#         args: [--allow-redefinition, --ignore-missing-imports]
+#         args: [--follow-imports=normal, --install-types, --non-interactive]
+-   repo: local
+    hooks:
+    -   id: mypy
+        name: mypy
+        entry: mypy
+        require_serial: true
+        language: system
+        types: [ python ]
+        args: [
+            --allow-redefinition,
+            --ignore-missing-imports,
+            --disable-error-code=union-attr,
+            --disable-error-code=attr-defined,
+            --disable-error-code=call-overload,
+            --disable-error-code=call-arg,
+            --disallow-incomplete-defs,
+            --disallow-untyped-defs,
+            ]
+
+-   repo: https://github.com/pycqa/pydocstyle
+    rev: 6.3.0
+    hooks:
+    -   id: pydocstyle
+        additional_dependencies: ["toml"]
+        args:
+        - --ignore=D100,D203,D405,D104,D416,D212,D213
+
+-   repo: https://github.com/hadialqattan/pycln
+    rev: v2.1.3
+    hooks:
+    -   id: pycln
+        args: [--config=pyproject.toml]
