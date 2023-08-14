@@ -1,12 +1,36 @@
 name: ai_news
 
 channels:
-  - defaults
+  - nvidia
+  - pytorch 
+  - huggingface 
   - conda-forge
+  - defaults
 
 dependencies:
   - python=3.10
   - jupyterlab
+  - pytorch 
+  - torchvision
+  - torchaudio 
+  - pytorch-cuda=11.7
+  - transformers
   - pip
   - pip:
-    - -r requirements.txt
+    - numpy
+    - pandas
+    - matplotlib
+    - mypy
+    - xmltodict
+    - rich
+    - arxiv
+    - langchain
+    - huggingface_hub
+    - sentencepiece
+    - tokenizers>=0.13.3
+    - accelerate
+    - ctransformers
+    - umap-learn
+    - plotly
+    - scikit-learn
+    - tiktoken
