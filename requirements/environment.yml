@@ -1,0 +1,50 @@
+name: ai_news
+
+channels:
+  - huggingface
+  - pytorch
+  - nvidia
+  - conda-forge
+  - defaults
+
+dependencies:
+  - python=3.10
+  - jupyterlab
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.7
+  - transformers
+  - pip
+  - pip:
+    - xmltodict
+    - rich
+    - arxiv
+    - tokenizers>=0.13.3
+    - ctransformers
+    - scikit-learn
+    - tiktoken
+
+    # python utils
+    - fire
+    - tqdm
+    - numpy
+    - pandas
+    - pre-commit
+    - mypy
+    - loguru
+
+    # viz
+    - matplotlib
+    - plotly
+    - umap-learn
+
+    # deep-learning
+    - accelerate
+    - langchain
+    - sentencepiece
+    - sentence_transformers
+    - huggingface_hub
+    - InstructorEmbedding
+    # - bitsandbytes
+    # - bitsandbytes-cuda117    # from https://pypi.org/project/bitsandbytes-cuda113/

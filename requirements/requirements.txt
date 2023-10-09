@@ -1,0 +1,21 @@
+numpy
+pandas
+matplotlib
+mypy
+xmltodict
+rich
+arxiv
+langchain
+huggingface_hub
+torch --index-url https://download.pytorch.org/whl/cu117
+torchvision --index-url https://download.pytorch.org/whl/cu117
+torchaudio --index-url https://download.pytorch.org/whl/cu117
+transformers
+ctransformers
+sentencepiece
+tokenizers>=0.13.3
+accelerate
+umap-learn
+plotly
+scikit-learn
+tiktoken

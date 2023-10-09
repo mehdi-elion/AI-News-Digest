@@ -1,0 +1,6 @@
+-e .
+rich
+arxiv
+loguru
+tqdm
+kedro
