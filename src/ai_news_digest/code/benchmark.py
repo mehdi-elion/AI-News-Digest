@@ -25,7 +25,6 @@ from sklearn.metrics import (
     silhouette_score,
 )
 from transformers import AutoTokenizer, BertModel, BertTokenizer, BertTokenizerFast
-
 from utils import check_gpu_availability, create_run_folder
 
 # define types
