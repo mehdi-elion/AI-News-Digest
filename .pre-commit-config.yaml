@@ -7,7 +7,7 @@ exclude: |
 repos:
 
 -   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
     -   id: check-yaml
         args: ['--unsafe']
@@ -18,7 +18,12 @@ repos:
     -   id: check-added-large-files
         args: ['--maxkb=800']
     -   id: check-json
-
+-   repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.292
+    hooks:
+    -   id: ruff
+        args:
+        - --fix
 -   repo: https://github.com/Yelp/detect-secrets
     rev: v1.4.0
     hooks:
@@ -33,37 +38,12 @@ repos:
         ]
 
 -   repo: https://github.com/psf/black
-    rev: 23.1.0
+    rev: 23.9.1
     hooks:
     -   id: black
         additional_dependencies: ["toml"]
         language_version: python3.10
 
--   repo: https://github.com/pycqa/isort
-    rev: 5.12.0
-    hooks:
-    -   id: isort
-        additional_dependencies: ["toml"]
-        files: "\\.(py)$"
-        args: [--settings-path=pyproject.toml]
-
--   repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-    -   id: flake8
-        additional_dependencies: [
-            'flake8-docstrings==1.5.0',
-            'flake8-isort',
-        ]
-        # args: ['--max-line-length', '100']
-        # exclude: ^test_data/|bumpity.py$
-
-# -   repo: https://github.com/pre-commit/mirrors-mypy
-#     rev: v0.991
-#     hooks:
-#     -   id: mypy
-#         args: [--allow-redefinition, --ignore-missing-imports]
-#         args: [--follow-imports=normal, --install-types, --non-interactive]
 -   repo: local
     hooks:
     -   id: mypy
@@ -92,7 +72,7 @@ repos:
         - --ignore=D100,D203,D405,D104,D416,D212,D213
 
 -   repo: https://github.com/hadialqattan/pycln
-    rev: v2.1.3
+    rev: v2.2.2
     hooks:
     -   id: pycln
         args: [--config=pyproject.toml]
