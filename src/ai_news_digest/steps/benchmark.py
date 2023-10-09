@@ -64,7 +64,7 @@ def compute_bert_embeddings(
     input_text: Union[str, List[str]],
     tokenizer: Union[BertTokenizerFast, AutoTokenizer, BertTokenizer],
     model: BertModel,
-    tokenizer_kwargs: dict = {},
+    tokenizer_kwargs: dict[str, Any] | None = None,
     batch_size: Optional[int] = None,
 ) -> torch.Tensor:
     """Compute embeddings output by a BERT model (huggingface implementation).
@@ -89,8 +89,9 @@ def compute_bert_embeddings(
         BERT-computed embeddings
 
     """
+    tokenizer_kwargs = tokenizer_kwargs or {}
     # no batches
-    if batch_size is None or type(input_text) is str:
+    if batch_size is None or isinstance(input_text, str):
         # tokenize inputs
         inputs = tokenizer(input_text, return_tensors="pt", **tokenizer_kwargs)
 
@@ -188,7 +189,7 @@ def load_langchain_model(
         )
 
     else:
-        raise RuntimeError(f"model_type '{model_type}' is not supported.")
+        raise NotImplementedError(f"model_type '{model_type}' is not supported.")
 
 
 def entropy(x: np.ndarray) -> float:
@@ -208,7 +209,8 @@ def entropy(x: np.ndarray) -> float:
     counts = np.histogramdd(x)[0]
     freqs = counts / np.sum(counts)
     logs = np.log2(np.where(freqs > 0, freqs, 1))
-    return -np.sum(freqs * logs)
+    entropy: float = -np.sum(freqs * logs)
+    return entropy
 
 
 def run_benchmark(

@@ -16,7 +16,7 @@ path = "src/ai_news_digest/version.py"
 [project.urls]
 Homepage = "https://github.com/mehdi-elion/AI-News-Digest/"
 #Documentation = ""
-Repository = "https://github.com/mehdi-elion/AI-News-Digest/".pre
+Repository = "https://github.com/mehdi-elion/AI-News-Digest/"
 
 [build-system]
 requires = ["hatchling"]
@@ -62,7 +62,9 @@ select = [
   "TRY",
 ]
 
-ignore = []
+ignore = [
+    "N806",
+]
 
 exclude = [
     ".bzr",
