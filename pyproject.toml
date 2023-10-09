@@ -1,6 +1,30 @@
+[project]
+name = "ai_news_digest"
+dynamic = ["version"]
+description = "AI powered news abstracts using NLP and LLMs"
+authors = [
+    {name = "Alain Anghelidi", email = "alainanghelidi@gmail.com"},
+    {name = "Mehdi Elion", email = ""},
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.hatch.version]
+path = "src/ai_news_digest/version.py"
+
+[project.urls]
+Homepage = "https://github.com/mehdi-elion/AI-News-Digest/"
+#Documentation = ""
+Repository = "https://github.com/mehdi-elion/AI-News-Digest/"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [tool.isort]
 profile = "black"
-line_length = 90
+line_length = 88
 
 [tool.pytest.ini_options]
 addopts = """
