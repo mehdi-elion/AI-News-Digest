@@ -1,39 +1,53 @@
 name: ai_news
 
 channels:
+  - huggingface
+  - pytorch
   - nvidia
-  - pytorch 
-  - huggingface 
   - conda-forge
   - defaults
 
 dependencies:
   - python=3.10
   - jupyterlab
-  - pytorch 
+  - pytorch
   - torchvision
-  - torchaudio 
+  - torchaudio
   - pytorch-cuda=11.7
   - transformers
   - pip
   - pip:
-    - numpy
-    - pandas
-    - matplotlib
-    - mypy
     - xmltodict
     - rich
     - arxiv
-    - langchain
-    - huggingface_hub
-    - sentencepiece
     - tokenizers>=0.13.3
-    - accelerate
     - ctransformers
-    - umap-learn
-    - plotly
     - scikit-learn
     - tiktoken
     - newsapi-python
     - newspaper3k
     - gnews
+    
+    # python utils
+    - fire
+    - tqdm
+    - numpy
+    - pandas
+    - pre-commit
+    - mypy
+    - loguru
+
+    # viz
+    - matplotlib
+    - plotly
+    - umap-learn
+
+    # deep-learning
+    - accelerate
+    - langchain
+    - sentencepiece
+    - sentence_transformers
+    - huggingface_hub
+    - InstructorEmbedding
+    # - bitsandbytes
+    # - bitsandbytes-cuda117    # from https://pypi.org/project/bitsandbytes-cuda113/
