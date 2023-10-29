@@ -19,3 +19,6 @@ umap-learn
 plotly
 scikit-learn
 tiktoken
+newsapi-python
+newspaper3k
+gnews
