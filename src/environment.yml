@@ -27,7 +27,7 @@ dependencies:
     - newsapi-python
     - newspaper3k
     - gnews
-    
+
     # python utils
     - fire
     - tqdm
