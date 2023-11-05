@@ -12,7 +12,7 @@ import torch
 import umap
 import yaml
 from langchain.embeddings import (
-    HuggingFaceBgeEmbeddings,
+    # HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
     HuggingFaceInstructEmbeddings,
 )
@@ -26,23 +26,22 @@ from sklearn.metrics import (
 )
 from transformers import AutoTokenizer, BertModel, BertTokenizer, BertTokenizerFast
 
-from ai_news_digest.utils import check_gpu_availability, create_run_folder
+from src.ai_news_digest.utils import check_gpu_availability, create_run_folder
 
 # define types
 LANGCHAIN_TYPE_NAME = Literal[
     "HuggingFaceInstructEmbeddings",
-    "HuggingFaceBgeEmbeddings",
+    # "HuggingFaceBgeEmbeddings",
     "HuggingFaceEmbeddings",
 ]
 LANGCHAIN_TYPE = Union[
     HuggingFaceInstructEmbeddings,
-    HuggingFaceBgeEmbeddings,
+    # HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
 ]
 
 # define default argument values
-PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-09-04_01-09-05.json"
-# PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-09-04_01-21-10.json"
+PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-05_22-27-15.json"
 MODEL_KWARGS = {"device": "cpu"}
 ENCODE_KWARGS = {
     "normalize_embeddings": True,
@@ -167,7 +166,7 @@ def load_langchain_model(
 
     """
     if model_type == "HuggingFaceBgeEmbeddings":
-        return HuggingFaceBgeEmbeddings(
+        return HuggingFaceEmbeddings(
             model_name=model_name,
             model_kwargs=model_kwargs,
             encode_kwargs=encode_kwargs,
@@ -192,7 +191,7 @@ def load_langchain_model(
         raise NotImplementedError(f"model_type '{model_type}' is not supported.")
 
 
-def entropy(x: np.ndarray) -> float:
+def entropy(x: np.ndarray[Any, np.dtype[float]]) -> float:
     """Compute the joint entropy in a multivariate (low_dim) tabular dataset.
 
     Parameters

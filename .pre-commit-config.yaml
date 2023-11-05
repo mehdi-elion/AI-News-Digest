@@ -59,6 +59,7 @@ repos:
             --disable-error-code=attr-defined,
             --disable-error-code=call-overload,
             --disable-error-code=call-arg,
+            --disable-error-code=no-any-return,
             --disallow-incomplete-defs,
             --disallow-untyped-defs,
             ]

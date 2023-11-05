@@ -19,3 +19,5 @@ umap-learn
 plotly
 scikit-learn
 tiktoken
+instructorembedding
+sentence_transformers

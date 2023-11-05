@@ -1,10 +1,10 @@
 [project]
 name = "ai_news_digest"
 dynamic = ["version"]
-description = "AI powered news abstracts using NLP and LLMs"
+description = "AI-powered news abstracts using NLP and LLMs"
 authors = [
     {name = "Alain Anghelidi", email = "alainanghelidi@gmail.com"},
-    {name = "Mehdi Elion", email = ""},
+    {name = "Mehdi Elion", email = "mehdi.elion@gmail.com"},
 ]
 requires-python = ">=3.10"
 readme = "README.md"
