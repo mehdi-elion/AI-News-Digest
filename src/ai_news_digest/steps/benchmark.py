@@ -41,7 +41,7 @@ LANGCHAIN_TYPE = Union[
 ]
 
 # define default argument values
-PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-05_22-27-15.json"
+PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-06_00-22-42.json"
 MODEL_KWARGS = {"device": "cpu"}
 ENCODE_KWARGS = {
     "normalize_embeddings": True,

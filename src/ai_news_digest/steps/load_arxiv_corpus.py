@@ -14,7 +14,7 @@ QUERIES = [
     "abs:explainability AND abs:neural",
     "abs:interpretability AND abs:neural",
 ]
-MAX_RESULTS = 4
+MAX_RESULTS = 100
 OUTPUT_FOLDER = "data/03_primary/"
 
 

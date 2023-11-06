@@ -24,6 +24,9 @@ dependencies:
     - ctransformers
     - scikit-learn
     - tiktoken
+    - newsapi-python
+    - newspaper3k
+    - gnews
 
     # python utils
     - fire
@@ -48,3 +51,4 @@ dependencies:
     - InstructorEmbedding
     # - bitsandbytes
     # - bitsandbytes-cuda117    # from https://pypi.org/project/bitsandbytes-cuda113/
+    faiss-cpu
