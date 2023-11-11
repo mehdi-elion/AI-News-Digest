@@ -93,3 +93,7 @@ line-length = 120
 
 [tool.ruff.mccabe]
 max-complexity = 5
+
+[tool.jupytext.formats]
+"notebooks/" = "ipynb"
+"notebooks/scripts/" = "py:percent"
