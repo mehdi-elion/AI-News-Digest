@@ -41,9 +41,7 @@ if __name__ == "__main__":
 
     n_queries = len(QUERIES)
     with progress:
-        retrieve_data_from_arxiv = progress.add_task(
-            "Running queries on Arxiv...", total=n_queries
-        )
+        retrieve_data_from_arxiv = progress.add_task("Running queries on Arxiv...", total=n_queries)
         for i, query in enumerate(QUERIES):
             progress.console.print(f"Running query '{query}' ({i+1}/{n_queries})...")
             search = arxiv.Search(
