@@ -1,0 +1,6 @@
+-r requirements.in
+ruff
+black
+pre-commit
+mypy
+types-PyYAML

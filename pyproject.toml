@@ -1,6 +1,26 @@
-[tool.isort]
-profile = "black"
-line_length = 90
+[project]
+name = "ai_news_digest"
+dynamic = ["version"]
+description = "AI-powered news abstracts using NLP and LLMs"
+authors = [
+    {name = "Alain Anghelidi", email = "alainanghelidi@gmail.com"},
+    {name = "Mehdi Elion", email = "mehdi.elion@gmail.com"},
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[tool.hatch.version]
+path = "src/ai_news_digest/version.py"
+
+[project.urls]
+Homepage = "https://github.com/mehdi-elion/AI-News-Digest/"
+#Documentation = ""
+Repository = "https://github.com/mehdi-elion/AI-News-Digest/"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.pytest.ini_options]
 addopts = """
@@ -10,4 +30,70 @@ addopts = """
 [tool.coverage.report]
 fail_under = 0
 show_missing = true
+omit = ["tests/*"]
 exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
+exclude_also = [
+    "def __repr__",
+    "if self\\.debug",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*"]
+
+[tool.mypy]
+strict = true
+exclude = "tests"
+
+[tool.ruff]
+select = [
+  "E",
+  "W",
+  "F",
+  "C90",
+  "I",
+  "N",
+  "C4",
+  "TRY",
+]
+
+ignore = [
+    "N806",
+]
+
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "venv",
+]
+line-length = 120
+
+[tool.ruff.mccabe]
+max-complexity = 5
+
+[tool.jupytext.formats]
+"notebooks/" = "ipynb"
+"notebooks/scripts/" = "py:percent"
