@@ -2,6 +2,7 @@ exclude: |
     (?x)^(
         .*__init__.py$|
         .*setup.py$|
+        notebooks/scripts/.*|
     )$
 
 repos:
@@ -22,11 +23,11 @@ repos:
   rev: v0.1.5
   hooks:
   - id: ruff
-    types_or: [ python, pyi, jupyter ]
+    types_or: [ python, pyi]   # TODO: add jupyter to the list (later)
     args: ['--fix']
   # Use ruff as formatter
   - id: ruff-format
-    types_or: [ python, pyi, jupyter ]
+    types_or: [ python, pyi]
 
 - repo: https://github.com/Yelp/detect-secrets
   rev: v1.4.0
@@ -43,11 +44,12 @@ repos:
   hooks:
     - id: nbstripout
 
-- repo: https://github.com/mwouts/jupytext
-  rev: v1.14.7
-  hooks:
-  - id: jupytext
-    args: [--sync]
+# TODO: reativate later
+# - repo: https://github.com/mwouts/jupytext
+#   rev: v1.14.7
+#   hooks:
+#   - id: jupytext
+#     args: [--sync]
 
 - repo: local
   hooks:
