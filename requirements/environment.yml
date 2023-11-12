@@ -24,6 +24,9 @@ dependencies:
     - ctransformers
     - scikit-learn
     - tiktoken
+    - newsapi-python
+    - newspaper3k
+    - gnews
 
     # python utils
     - fire

@@ -12,7 +12,6 @@ import torch
 import umap
 import yaml
 from langchain.embeddings import (
-    HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
     HuggingFaceInstructEmbeddings,
 )
@@ -31,12 +30,10 @@ from src.ai_news_digest.utils import check_gpu_availability, create_run_folder
 # define types
 LANGCHAIN_TYPE_NAME = Literal[
     "HuggingFaceInstructEmbeddings",
-    "HuggingFaceBgeEmbeddings",
     "HuggingFaceEmbeddings",
 ]
 LANGCHAIN_TYPE = Union[
     HuggingFaceInstructEmbeddings,
-    HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
 ]
 
