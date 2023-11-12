@@ -26,7 +26,7 @@ pip install -r src/requirements.txt
 or
 
 ```console
-conda env create -f src/environment.yml
+conda env create -f src/environment.yml --force
 conda activate ai_news
 ```
 

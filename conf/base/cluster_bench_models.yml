@@ -1,0 +1,39 @@
+instructor-base-default:
+  model_name: "hkunlp/instructor-base"
+  type: "HuggingFaceInstructEmbeddings"
+  embed_instruction: "Represent the document for retrieval: "
+
+instructor-base-zs:
+  model_name: "hkunlp/instructor-base"
+  type: "HuggingFaceInstructEmbeddings"
+  embed_instruction: "Represent this research paper abstract pertaining to artificial intelligence and machine learning based on its research domain: "
+
+bge-small-en:
+  model_name: "BAAI/bge-small-en"
+  type: "HuggingFaceBgeEmbeddings"
+  embed_instruction: null
+
+bert-base-uncased:
+  model_name: "bert-base-uncased"
+  type: HuggingFaceEmbeddings
+  embed_instruction: null
+
+bert-for-patents:
+  model_name: "anferico/bert-for-patents"
+  type: HuggingFaceEmbeddings
+  embed_instruction: null
+
+PatentSBERTa:
+  model_name: "AI-Growth-Lab/PatentSBERTa"
+  type: HuggingFaceEmbeddings
+  embed_instruction: null
+
+bigbird-pegasus-large-bigpatent:
+  model_name: "google/bigbird-pegasus-large-bigpatent"
+  type: HuggingFaceEmbeddings
+  embed_instruction: null
+
+all-mpnet-base-v2:
+  model_name: "sentence-transformers/all-mpnet-base-v2"
+  type: HuggingFaceEmbeddings
+  embed_instruction: null
