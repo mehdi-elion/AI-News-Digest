@@ -12,7 +12,6 @@ import torch
 import umap
 import yaml
 from langchain.embeddings import (
-    HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
     HuggingFaceInstructEmbeddings,
 )
@@ -25,23 +24,21 @@ from sklearn.metrics import (
     silhouette_score,
 )
 from transformers import AutoTokenizer, BertModel, BertTokenizer, BertTokenizerFast
-from utils import check_gpu_availability, create_run_folder
+
+from src.ai_news_digest.utils import check_gpu_availability, create_run_folder
 
 # define types
 LANGCHAIN_TYPE_NAME = Literal[
     "HuggingFaceInstructEmbeddings",
-    "HuggingFaceBgeEmbeddings",
     "HuggingFaceEmbeddings",
 ]
 LANGCHAIN_TYPE = Union[
     HuggingFaceInstructEmbeddings,
-    HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
 ]
 
 # define default argument values
-PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-09-04_01-09-05.json"
-# PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-09-04_01-21-10.json"
+PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-05_22-27-15.json"
 MODEL_KWARGS = {"device": "cpu"}
 ENCODE_KWARGS = {
     "normalize_embeddings": True,
@@ -63,7 +60,7 @@ def compute_bert_embeddings(
     input_text: Union[str, List[str]],
     tokenizer: Union[BertTokenizerFast, AutoTokenizer, BertTokenizer],
     model: BertModel,
-    tokenizer_kwargs: dict = {},
+    tokenizer_kwargs: dict[str, Any] | None = None,
     batch_size: Optional[int] = None,
 ) -> torch.Tensor:
     """Compute embeddings output by a BERT model (huggingface implementation).
@@ -88,8 +85,9 @@ def compute_bert_embeddings(
         BERT-computed embeddings
 
     """
+    tokenizer_kwargs = tokenizer_kwargs or {}
     # no batches
-    if batch_size is None or type(input_text) is str:
+    if batch_size is None or isinstance(input_text, str):
         # tokenize inputs
         inputs = tokenizer(input_text, return_tensors="pt", **tokenizer_kwargs)
 
@@ -165,7 +163,7 @@ def load_langchain_model(
 
     """
     if model_type == "HuggingFaceBgeEmbeddings":
-        return HuggingFaceBgeEmbeddings(
+        return HuggingFaceEmbeddings(
             model_name=model_name,
             model_kwargs=model_kwargs,
             encode_kwargs=encode_kwargs,
@@ -187,10 +185,10 @@ def load_langchain_model(
         )
 
     else:
-        raise RuntimeError(f"model_type '{model_type}' is not supported.")
+        raise NotImplementedError(f"model_type '{model_type}' is not supported.")
 
 
-def entropy(x: np.ndarray) -> float:
+def entropy(x: np.ndarray[Any, np.dtype[float]]) -> float:
     """Compute the joint entropy in a multivariate (low_dim) tabular dataset.
 
     Parameters
@@ -207,7 +205,8 @@ def entropy(x: np.ndarray) -> float:
     counts = np.histogramdd(x)[0]
     freqs = counts / np.sum(counts)
     logs = np.log2(np.where(freqs > 0, freqs, 1))
-    return -np.sum(freqs * logs)
+    entropy: float = -np.sum(freqs * logs)
+    return entropy
 
 
 def run_benchmark(
@@ -298,9 +297,7 @@ def run_benchmark(
         umap_proj = reducer.fit_transform(embeddings)
 
         # store in a dataframe with metadata
-        df = pd.DataFrame(
-            columns=[f"umap_{i}" for i in range(umap_proj.shape[1])], data=umap_proj
-        )
+        df = pd.DataFrame(columns=[f"umap_{i}" for i in range(umap_proj.shape[1])], data=umap_proj)
         df = pd.concat((df, df_data.reset_index(names=["ID"])), axis=1)
 
         # clustering
@@ -330,9 +327,7 @@ def run_benchmark(
 
         # compute and store scores
         scores = {}
-        scores["Calinski-Harabasz ↑"] = calinski_harabasz_score(
-            X_cluster, df["cluster"]
-        )
+        scores["Calinski-Harabasz ↑"] = calinski_harabasz_score(X_cluster, df["cluster"])
         scores["Silhouette ↑"] = silhouette_score(X_cluster, df["cluster"])
         scores["Davies-Bouldin ↓"] = davies_bouldin_score(X_cluster, df["cluster"])
         scores["Entropy ↓"] = entropy(X_cluster.values)
