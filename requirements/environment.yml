@@ -52,3 +52,4 @@ dependencies:
     # - bitsandbytes
     # - bitsandbytes-cuda117    # from https://pypi.org/project/bitsandbytes-cuda113/
     - faiss-cpu
+    - lancedb
