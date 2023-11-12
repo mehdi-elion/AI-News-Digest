@@ -12,7 +12,6 @@ import torch
 import umap
 import yaml
 from langchain.embeddings import (
-    # HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
     HuggingFaceInstructEmbeddings,
 )
@@ -31,12 +30,10 @@ from src.ai_news_digest.utils import check_gpu_availability, create_run_folder
 # define types
 LANGCHAIN_TYPE_NAME = Literal[
     "HuggingFaceInstructEmbeddings",
-    # "HuggingFaceBgeEmbeddings",
     "HuggingFaceEmbeddings",
 ]
 LANGCHAIN_TYPE = Union[
     HuggingFaceInstructEmbeddings,
-    # HuggingFaceBgeEmbeddings,
     HuggingFaceEmbeddings,
 ]
 
@@ -300,9 +297,7 @@ def run_benchmark(
         umap_proj = reducer.fit_transform(embeddings)
 
         # store in a dataframe with metadata
-        df = pd.DataFrame(
-            columns=[f"umap_{i}" for i in range(umap_proj.shape[1])], data=umap_proj
-        )
+        df = pd.DataFrame(columns=[f"umap_{i}" for i in range(umap_proj.shape[1])], data=umap_proj)
         df = pd.concat((df, df_data.reset_index(names=["ID"])), axis=1)
 
         # clustering
@@ -332,9 +327,7 @@ def run_benchmark(
 
         # compute and store scores
         scores = {}
-        scores["Calinski-Harabasz ↑"] = calinski_harabasz_score(
-            X_cluster, df["cluster"]
-        )
+        scores["Calinski-Harabasz ↑"] = calinski_harabasz_score(X_cluster, df["cluster"])
         scores["Silhouette ↑"] = silhouette_score(X_cluster, df["cluster"])
         scores["Davies-Bouldin ↓"] = davies_bouldin_score(X_cluster, df["cluster"])
         scores["Entropy ↓"] = entropy(X_cluster.values)

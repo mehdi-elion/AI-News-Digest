@@ -21,3 +21,6 @@ scikit-learn
 tiktoken
 instructorembedding
 sentence_transformers
+newsapi-python
+newspaper3k
+gnews
