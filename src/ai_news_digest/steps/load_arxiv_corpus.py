@@ -18,6 +18,7 @@ MAX_RESULTS = 100
 OUTPUT_FOLDER = "data/03_primary/"
 
 
+# TODO: make it a CLI
 if __name__ == "__main__":
     # get today's date
     now = str(datetime.datetime.now()).split(".")[0]
@@ -64,6 +65,6 @@ if __name__ == "__main__":
     over_dict: dict[str, Any] = {}
     over_dict["queries"] = QUERIES
     over_dict["results"] = res_dict
-    with open(output_filename, "w") as f:
-        json.dump(over_dict, f)
+    with open(output_filename, "w", encoding="utf8") as f:
+        json.dump(over_dict, f, ensure_ascii=False)
     logger.success(f"Successfully saved results to '{output_filename}' !")

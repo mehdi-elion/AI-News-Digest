@@ -50,6 +50,9 @@ omit = ["tests/*"]
 strict = true
 exclude = "tests"
 
+[tool.pycln]
+all = true
+
 [tool.ruff]
 select = [
   "E",

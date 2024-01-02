@@ -1,24 +1,18 @@
-import lancedb
-from loguru import logger
 import json
+
+import lancedb
 import pandas as pd
-from rich import print, inspect
-from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn
-
-from langchain.document_loaders import TextLoader
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import LanceDB
 from langchain.embeddings import HuggingFaceEmbeddings
-
+from langchain.vectorstores import LanceDB
+from loguru import logger
+from rich import print
 from tqdm import tqdm
-
 
 # constants & config
 DB_NAME = "sample-lancedb"
 TABLE_NAME = "arxiv_table"
 PATH_TO_ARXIV_DATA = "data/03_primary/arxiv_dict_2023-11-06_00-22-42.json"
-EMBEDDING_MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"    # or "BAAI/bge-base-en"
+EMBEDDING_MODEL_NAME = "sentence-transformers/all-mpnet-base-v2"  # or "BAAI/bge-base-en"
 MODEL_KWARGS = {
     # "device": "cpu",
     "device": 0,
@@ -66,7 +60,7 @@ for key, value in tqdm(info_dict.items()):
     table_data += [
         {
             "id": key,
-            "url": key, 
+            "url": key,
             "title": value["title"],
             "text": value["abstract"],
             "date": value["date"],
