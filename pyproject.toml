@@ -67,6 +67,8 @@ select = [
 
 ignore = [
     "N806",
+    "TRY003",
+    "C408",
 ]
 
 exclude = [

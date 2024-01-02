@@ -2,7 +2,7 @@ import json
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import time
-from typing import List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Tuple
 
 import yaml
 from gnews import GNews
@@ -12,7 +12,7 @@ from newsapi import NewsApiClient
 OUTPUT_FOLDER = "data/03_primary/"
 
 
-def load_credentials(path_to_creds: str = "conf/local/credentials.yml") -> dict:
+def load_credentials(path_to_creds: str = "conf/local/credentials.yml") -> Dict[str, Any]:
     """Load credentials from specified path.
 
     Parameters
@@ -24,16 +24,16 @@ def load_credentials(path_to_creds: str = "conf/local/credentials.yml") -> dict:
     -------
     credentials: dict
         Dictionary containing various credentials
-    """
 
+    """
     with open(path_to_creds, "r") as file:
-        credentials = yaml.safe_load(file)
+        credentials: Dict[str, Any] = yaml.safe_load(file)
 
     return credentials
 
 
 # TODO: combine with `newspaper3k` to load full article texts
-def load_news_GNews(
+def load_news_gnews(
     keywords: str,
     language: str = "en",
     country: Optional[str] = None,
@@ -42,7 +42,7 @@ def load_news_GNews(
     end_date: Optional[Tuple[int, int, int]] = None,
     exclude_websites: List[str] = [],
     max_results: Optional[int] = None,
-) -> List[dict]:
+) -> List[Dict[str, Any]]:
     """Load a set of news using the GNews library.
 
     More details about the arguments can be found at https://pypi.org/project/gnews/.
@@ -70,9 +70,9 @@ def load_news_GNews(
     Returns
     -------
     found_news: List[dict]
-        List of
-    """
+        List of found articles.
 
+    """
     # set filters
     google_news = GNews(
         language=language,
@@ -86,7 +86,7 @@ def load_news_GNews(
     )
 
     # run search
-    found_news = google_news.get_news(keywords)
+    found_news: List[Dict[str, Any]] = google_news.get_news(keywords)
 
     # return found news
     return found_news
@@ -94,38 +94,38 @@ def load_news_GNews(
 
 # TODO: combine with `newspaper3k` to load full article texts
 # TODO: iterate over sources & domains to curb the 100-article limit (free-tier)
-def load_news_NewsApi(
-    credentials: dict,
+def load_news_newsapi(
+    credentials: Dict[str, Any],
     query: Optional[str] = None,
-    sources: Optional[List[str]] = ["bbc-news", "the-verge"],
-    domains: Optional[List[str]] = ["apnews.com"],
+    sources: List[str] = ["bbc-news", "the-verge"],
+    domains: List[str] = ["apnews.com"],
     language: str = "en",
     period: Optional[str] = "30d",
     from_date: Optional[str] = None,  # YYYY-MM-DD format
     to_date: Optional[str] = None,  # YYYY-MM-DD format
     sort_by: str = "relevancy",
-) -> List[dict]:
+) -> List[Dict[str, Any]]:
     """Load a set of news using the NewsAPI library.
 
     Parameters
     ----------
     credentials : dict
         Local credentials used for NewsAPI authentication.
-    query : Optional[str], optional
+    query : str, optional
         Query used tor the news search, by default None
-    sources : Optional[List[str]], optional
-        List of sources, by default ["bbc-news", "the-verge"]
-    domains : Optional[List[str]], optional
-        List of domains, by default ["apnews.com"]
+    sources : List[str]
+        List (possibly empty) of sources, by default ["bbc-news", "the-verge"]
+    domains : List[str]
+        List (possibly empty) of domains, by default ["apnews.com"]
     language : str, optional
         Language of the articles, by default "en"
-    period : Optional[str], optional
+    period : str, optional
         Length of the time-wise sliding window used to filter articles;
         must be of the form '30d' (30 days), by default '30d'.
         This argument overrides `from_date` and `to_date` when it is specified.
-    from_date : Optional[str], optional
+    from_date : str, optional
         Start date of the time window in '%Y-%m-%d' format, by default None
-    to_date : Optional[str], optional
+    to_date : str, optional
         End date of the time window in '%Y-%m-%d' format, by default None
     sort_by : str
         Sorting criteria, by default "relevancy"
@@ -139,8 +139,8 @@ def load_news_NewsApi(
     ------
     ValueError
         `period` doesn't follow the right format
-    """
 
+    """
     # init client
     newsapi = NewsApiClient(api_key=credentials["news_api"]["key"])
 
@@ -219,20 +219,20 @@ if __name__ == "__main__":
         domains=["apnews.com", "reuters.com", "techcrunch.com"],
         language="en",
         period="30d",
-        from_date=None,  # YYYY-MM-DD format
-        to_date=None,  # YYYY-MM-DD format
+        from_date=None,
+        to_date=None,
         sort_by="relevancy",
     )
-    news_list = load_news_NewsApi(
+    news_list = load_news_newsapi(
         credentials=credentials,
-        **params,
+        **params,  # type: ignore
     )
     logger.info(f"Successfully found {len(news_list)} news articles !")
 
     # store results
     over_dict = {}
     over_dict["params"] = params
-    over_dict["results"] = {dico["url"]: dico for dico in news_list}
+    over_dict["results"] = {dico["url"]: dico for dico in news_list}  # type: ignore
     with open(output_filename, "w", encoding="utf8") as f:
         json.dump(over_dict, f, ensure_ascii=False)
     logger.success(f"Successfully saved results to '{output_filename}' !")
