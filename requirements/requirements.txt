@@ -24,3 +24,13 @@ sentence_transformers
 newsapi-python
 newspaper3k
 gnews
+
+fire
+tqdm
+pre-commit
+mypy
+loguru
+
+bitsandbytes
+faiss-cpu
+lancedb
