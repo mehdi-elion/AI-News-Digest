@@ -4,6 +4,7 @@ from pathlib import Path
 from time import time
 from typing import Any, Dict, List, Optional, Tuple
 
+import newspaper
 import yaml
 from gnews import GNews
 from loguru import logger
@@ -104,6 +105,8 @@ def load_news_newsapi(
     from_date: Optional[str] = None,  # YYYY-MM-DD format
     to_date: Optional[str] = None,  # YYYY-MM-DD format
     sort_by: str = "relevancy",
+    override_content: bool = False,
+    use_logs: bool = False,
 ) -> List[Dict[str, Any]]:
     """Load a set of news using the NewsAPI library.
 
@@ -128,7 +131,13 @@ def load_news_newsapi(
     to_date : str, optional
         End date of the time window in '%Y-%m-%d' format, by default None
     sort_by : str
-        Sorting criteria, by default "relevancy"
+        Sorting criteria, by default "relevancy". Options are : 'relevancy',
+        'popularity' and 'publishedAt'
+    override_content : bool
+        Whether to use newspaper3k to download the full article text and store
+        it as article "content" in output, by default False.
+    use_logs : bool
+        Whether to use log messages, by default False.
 
     Returns
     -------
@@ -169,6 +178,8 @@ def load_news_newsapi(
     max_runtime_sec = 120.0
     max_results = 100
     t0 = time()
+    if use_logs:
+        logger.info("Fetching articles...")
     while run_loop and time() - t0 < max_runtime_sec:
         # run query for current
         all_articles = newsapi.get_everything(
@@ -193,6 +204,15 @@ def load_news_newsapi(
         page_idx += 1
         if len(results) >= total_results or page_idx * page_size > max_results:
             run_loop = False
+
+    if override_content:
+        if use_logs:
+            logger.info("Fetching articles' full texts using newspaper3k...")
+        for i, dico in enumerate(results):
+            article = newspaper.Article(url=dico["url"])
+            article.download()
+            article.parse()
+            results[i]["full_text"] = article.text
 
     return results
 
@@ -222,6 +242,8 @@ if __name__ == "__main__":
         from_date=None,
         to_date=None,
         sort_by="relevancy",
+        override_content=True,
+        use_logs=True,
     )
     news_list = load_news_newsapi(
         credentials=credentials,

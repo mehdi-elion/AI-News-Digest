@@ -34,3 +34,4 @@ loguru
 bitsandbytes
 faiss-cpu
 lancedb
+tifffile
