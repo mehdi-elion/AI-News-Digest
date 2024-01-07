@@ -1,4 +1,4 @@
-# choose model 
+# choose model
 model=BAAI/bge-small-en
 
 # choose revision
@@ -7,9 +7,9 @@ revision=main
 # share a volume with the Docker container to avoid downloading weights every run
 volume=$PWD/data/06_models/embed_api
 
-# choose device: # 'docker run --gpus $device' 
+# choose device: # 'docker run --gpus $device'
 # device='"device=0"'
-device=all
+device="all"
 
 # run docker command
 docker run -p 8080:80 \
