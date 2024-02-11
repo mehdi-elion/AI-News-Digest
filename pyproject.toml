@@ -50,6 +50,9 @@ omit = ["tests/*"]
 strict = true
 exclude = "tests"
 
+[tool.pycln]
+all = true
+
 [tool.ruff]
 select = [
   "E",
@@ -64,6 +67,9 @@ select = [
 
 ignore = [
     "N806",
+    "TRY003",
+    "C408",
+    "C901"
 ]
 
 exclude = [

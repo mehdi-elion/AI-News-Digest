@@ -1,7 +1,7 @@
 name: ai_news
 
 channels:
-  - huggingface
+  # - huggingface
   - pytorch
   - nvidia
   - conda-forge
@@ -13,14 +13,15 @@ dependencies:
   - pytorch
   - torchvision
   - torchaudio
-  - pytorch-cuda=11.7
-  - transformers
+  - pytorch-cuda=12.1
+  - transformers>=4.34.0 
   - pip
   - pip:
     - xmltodict
     - rich
     - arxiv
     - tokenizers>=0.13.3
+    # - flash_attn
     - ctransformers
     - scikit-learn
     - tiktoken
@@ -45,9 +46,13 @@ dependencies:
     # deep-learning
     - accelerate
     - langchain
+    - langchain-community
     - sentencepiece
     - sentence_transformers
     - huggingface_hub
     - InstructorEmbedding
     # - bitsandbytes
     # - bitsandbytes-cuda117    # from https://pypi.org/project/bitsandbytes-cuda113/
+    - faiss-cpu
+    - lancedb
+    - tifffile

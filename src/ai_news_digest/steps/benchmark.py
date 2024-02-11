@@ -6,6 +6,7 @@ from time import time
 from typing import Any, Dict, List, Literal, Optional, Union
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 import plotly.express as px
 import torch
@@ -38,7 +39,7 @@ LANGCHAIN_TYPE = Union[
 ]
 
 # define default argument values
-PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-05_22-27-15.json"
+PATH_INFO_DICT = "data/03_primary/arxiv_dict_2023-11-06_00-22-42.json"
 MODEL_KWARGS = {"device": "cpu"}
 ENCODE_KWARGS = {
     "normalize_embeddings": True,
@@ -125,7 +126,7 @@ def compute_bert_embeddings(
         del embeddings_i
         torch.cuda.empty_cache()
 
-    return embeddings
+    return embeddings  # type: ignore
 
 
 def load_langchain_model(
@@ -162,14 +163,7 @@ def load_langchain_model(
         If provided model type is not supported
 
     """
-    if model_type == "HuggingFaceBgeEmbeddings":
-        return HuggingFaceEmbeddings(
-            model_name=model_name,
-            model_kwargs=model_kwargs,
-            encode_kwargs=encode_kwargs,
-        )
-
-    elif model_type == "HuggingFaceEmbeddings":
+    if model_type in ["HuggingFaceBgeEmbeddings", "HuggingFaceEmbeddings"]:
         return HuggingFaceEmbeddings(
             model_name=model_name,
             model_kwargs=model_kwargs,
@@ -188,7 +182,7 @@ def load_langchain_model(
         raise NotImplementedError(f"model_type '{model_type}' is not supported.")
 
 
-def entropy(x: np.ndarray[Any, np.dtype[float]]) -> float:
+def entropy(x: npt.NDArray[np.float_]) -> float:
     """Compute the joint entropy in a multivariate (low_dim) tabular dataset.
 
     Parameters
