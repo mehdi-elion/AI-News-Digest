@@ -5,6 +5,7 @@ from time import time
 from typing import Any, Dict, List, Optional, Tuple
 
 import newspaper
+import pandas as pd
 import yaml
 from gnews import GNews
 from loguru import logger
@@ -43,6 +44,9 @@ def load_news_gnews(
     end_date: Optional[Tuple[int, int, int]] = None,
     exclude_websites: List[str] = [],
     max_results: Optional[int] = None,
+    override_content: bool = False,
+    use_logs: bool = False,
+    standardize: bool = False,
 ) -> List[Dict[str, Any]]:
     """Load a set of news using the GNews library.
 
@@ -67,6 +71,14 @@ def load_news_gnews(
         List of websites to exclude, by default []
     max_results : int, optional
         Maximum number of results, by default None
+    override_content : bool
+        Whether to use newspaper3k to download the full article text and store
+        it as article "content" in output, by default False.
+    use_logs : bool
+        Whether to use log messages, by default False.
+    standardize : bool
+        Whether to post-process results to have the match a given standard,
+        by default False.
 
     Returns
     -------
@@ -89,6 +101,37 @@ def load_news_gnews(
     # run search
     found_news: List[Dict[str, Any]] = google_news.get_news(keywords)
 
+    # fetch full text if available
+    if override_content:
+        if use_logs:
+            logger.info("Fetching articles' full texts using newspaper3k...")
+        for i, dico in enumerate(found_news):
+            try:
+                article = newspaper.Article(url=dico["url"])
+                article.download()
+                article.parse()
+                found_news[i]["full_text"] = article.text
+            except Exception as e:
+                logger.warning(f"newspaper3k failed with error: {e}")
+
+    # standardize
+    if standardize:
+        found_news = [
+            {
+                "url": d["url"],
+                "title": d["title"],
+                "content": d["full_text"] if "full_text" in d.keys() else None,
+                "metadata": {
+                    "query_engine": "gnews",
+                    "top_image": article.top_image,
+                    "description": d["description"],
+                    "published_date": pd.to_datetime(d["published date"]),
+                    "publisher": d["publisher"],
+                },
+            }
+            for d in found_news
+        ]
+
     # return found news
     return found_news
 
@@ -107,6 +150,7 @@ def load_news_newsapi(
     sort_by: str = "relevancy",
     override_content: bool = False,
     use_logs: bool = False,
+    standardize: bool = False,
 ) -> List[Dict[str, Any]]:
     """Load a set of news using the NewsAPI library.
 
@@ -115,7 +159,7 @@ def load_news_newsapi(
     credentials : dict
         Local credentials used for NewsAPI authentication.
     query : str, optional
-        Query used tor the news search, by default None
+        Query used for the news search, by default None
     sources : List[str]
         List (possibly empty) of sources, by default ["bbc-news", "the-verge"]
     domains : List[str]
@@ -138,6 +182,9 @@ def load_news_newsapi(
         it as article "content" in output, by default False.
     use_logs : bool
         Whether to use log messages, by default False.
+    standardize : bool
+        Whether to post-process results to have the match a given standard,
+        by default False.
 
     Returns
     -------
@@ -209,10 +256,31 @@ def load_news_newsapi(
         if use_logs:
             logger.info("Fetching articles' full texts using newspaper3k...")
         for i, dico in enumerate(results):
-            article = newspaper.Article(url=dico["url"])
-            article.download()
-            article.parse()
-            results[i]["full_text"] = article.text
+            try:
+                article = newspaper.Article(url=dico["url"])
+                article.download()
+                article.parse()
+                results[i]["full_text"] = article.text
+            except Exception as e:
+                logger.warning(f"newspaper3k failed with error: {e}")
+
+    if standardize:
+        results = [
+            {
+                "url": d["url"],
+                "title": d["title"],
+                "content": d["full_text"] if "full_text" in d.keys() else d["content"],
+                "metadata": {
+                    "query_engine": "newsapi",
+                    "top_image": d["urlToImage"],
+                    "description": d["description"],
+                    "published_date": pd.to_datetime(d["publishedAt"]),
+                    "source": d["source"],
+                    "author": d["author"],
+                },
+            }
+            for d in results
+        ]
 
     return results
 
