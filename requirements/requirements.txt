@@ -11,11 +11,13 @@ huggingface_hub
 torch --index-url https://download.pytorch.org/whl/cu117
 torchvision --index-url https://download.pytorch.org/whl/cu117
 torchaudio --index-url https://download.pytorch.org/whl/cu117
-transformers>=4.34.0 
+transformers>=4.34.0
 ctransformers
 sentencepiece
 tokenizers>=0.13.3
 accelerate
+openai
+vllm
 # flash_attn
 
 umap-learn
@@ -26,12 +28,13 @@ instructorembedding
 sentence_transformers
 newsapi-python
 newspaper3k
-gnews
+gnews>=0.3.6
 
 fire
 tqdm
 pre-commit
 mypy
+types-PyYAML
 loguru
 
 bitsandbytes
