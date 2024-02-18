@@ -276,7 +276,7 @@ def load_news_newsapi(
                     "description": d["description"],
                     "published_date": pd.to_datetime(d["publishedAt"]),
                     "source": d["source"],
-                    "author": d["author"],
+                    "authors": [d["author"]],
                 },
             }
             for d in results
