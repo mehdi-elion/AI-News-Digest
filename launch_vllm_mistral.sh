@@ -24,5 +24,3 @@ docker run \
     --model $model
     # --model $hf_hub_cache
     # -v $volume:/data \
-    
-    
