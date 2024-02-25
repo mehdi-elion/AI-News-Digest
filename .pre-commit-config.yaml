@@ -39,10 +39,10 @@ repos:
     name: 'detect-secrets-jupyter'
     args: ['--exclude-files', '.*[^i][^p][^y][^n][^b]$', '--exclude-lines', '"(hash|id|image/\w+)":.*']
 
-- repo: https://github.com/kynan/nbstripout
-  rev: 0.6.1
-  hooks:
-    - id: nbstripout
+# - repo: https://github.com/kynan/nbstripout
+#   rev: 0.6.1
+#   hooks:
+#     - id: nbstripout
 
 # TODO: reativate later
 # - repo: https://github.com/mwouts/jupytext
