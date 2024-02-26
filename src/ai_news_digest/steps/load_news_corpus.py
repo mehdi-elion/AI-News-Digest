@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from time import time
 from typing import Any, Dict, List, Optional, Tuple
+from joblib import Parallel, delayed, parallel_config
 
 import newspaper
 import pandas as pd
@@ -32,6 +33,143 @@ def load_credentials(path_to_creds: str = "conf/local/credentials.yml") -> Dict[
         credentials: Dict[str, Any] = yaml.safe_load(file)
 
     return credentials
+
+
+
+
+# TODO: combine with `newspaper3k` to load full article texts
+def load_news_gnews_parallel(
+    keywords: str,
+    language: str = "en",
+    country: Optional[str] = None,
+    period: Optional[str] = None,  # e.g. '30d'
+    start_date: Optional[Tuple[int, int, int]] = None,
+    end_date: Optional[Tuple[int, int, int]] = None,
+    exclude_websites: List[str] = [],
+    max_results: Optional[int] = None,
+    override_content: bool = False,
+    use_logs: bool = False,
+    standardize: bool = False,
+    n_jobs: Optional[int]=None,
+) -> List[Dict[str, Any]]:
+    """Load a set of news using the GNews library.
+
+    More details about the arguments can be found at https://pypi.org/project/gnews/.
+
+    Parameters
+    ----------
+    keywords : str
+        Query to use for the search
+    language : str, optional
+        Language of the article, by default "en"
+    country : Optional[str], optional
+        Country related to the article, by default None
+    period : Optional[str], optional
+        Length of the time-wise sliding window used to filter articles;
+        must be of the form '30d' (30 days), by default None
+    start_date : Tuple[int, int, int] in (yyyy, mm, dd) format, optional
+        Starting date of the time window, by default None
+    end_date : Tuple[int, int, int], optional
+        End date of the time window in (yyyy, mm, dd) format, by default None
+    exclude_websites : str, optional
+        List of websites to exclude, by default []
+    max_results : int, optional
+        Maximum number of results, by default None
+    override_content : bool
+        Whether to use newspaper3k to download the full article text and store
+        it as article "content" in output, by default False.
+    use_logs : bool
+        Whether to use log messages, by default False.
+    standardize : bool
+        Whether to post-process results to have the match a given standard,
+        by default False.
+
+    Returns
+    -------
+    found_news: List[dict]
+        List of found articles.
+
+    """
+    # set filters
+    google_news = GNews(
+        language=language,
+        country=country,
+        period=period,
+        start_date=start_date,
+        end_date=end_date,
+        max_results=max_results,
+        exclude_websites=exclude_websites,
+        proxy=None,
+    )
+
+    # run search
+    found_news: List[Dict[str, Any]] = google_news.get_news(keywords)
+    
+    # define function for parallel article fetching
+    def fetch_full_text(url: str) -> Optional[str]:
+        try:
+            article = newspaper.Article(url=url)
+            article.download()
+            article.parse()
+            return article.text
+        except Exception as e:
+            if use_logs:
+                logger.warning(f"newspaper3k failed with error: {e}")
+            return None
+
+    # fetch full text if available
+    if override_content:
+        if use_logs:
+            logger.info("Fetching articles' full texts using newspaper3k...")
+        if n_jobs is None:
+            for i, dico in enumerate(found_news):
+                try:
+                    article = newspaper.Article(url=dico["url"])
+                    article.download()
+                    article.parse()
+                    found_news[i]["full_text"] = article.text
+                    found_news[i]["top_image"] = article.top_image
+                except Exception as e:
+                    if use_logs:
+                        logger.warning(f"newspaper3k failed with error: {e}")
+        else:
+            full_texts = Parallel(n_jobs=n_jobs, prefer="threads")(
+                delayed(fetch_full_text)(dico["url"]) 
+                for i, dico in enumerate(found_news)
+            )
+            for i, full_text in enumerate(full_texts):
+                if full_text is not None:
+                    found_news[i]["full_text"] = full_text
+
+
+    # standardize
+    if standardize:
+        found_news = [
+            {
+                "url": d["url"],
+                "title": d["title"],
+                "content": d["full_text"] if "full_text" in d.keys() else None,
+                "metadata": {
+                    "query_engine": "gnews",
+                    "top_image": d["top_image"] if "top_image" in d.keys() else None,
+                    "description": d["description"],
+                    "published_date": pd.to_datetime(d["published date"]),
+                    "publisher": d["publisher"],
+                },
+            }
+            for d in found_news
+        ]
+
+    # return found news
+    return found_news
+
+
+
+
+
+
+
+
 
 
 # TODO: combine with `newspaper3k` to load full article texts
@@ -123,7 +261,7 @@ def load_news_gnews(
                 "content": d["full_text"] if "full_text" in d.keys() else None,
                 "metadata": {
                     "query_engine": "gnews",
-                    "top_image": article.top_image,
+                    "top_image": article.top_image,   #TOFIX: article wrongly referenced
                     "description": d["description"],
                     "published_date": pd.to_datetime(d["published date"]),
                     "publisher": d["publisher"],

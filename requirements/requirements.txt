@@ -19,6 +19,7 @@ accelerate
 openai
 vllm
 # flash_attn
+qdrant-client
 
 umap-learn
 plotly
@@ -41,3 +42,6 @@ bitsandbytes
 faiss-cpu
 lancedb
 tifffile
+soundfile
+librosa
+cTTS

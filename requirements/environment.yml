@@ -30,6 +30,7 @@ dependencies:
     - newsapi-python
     - newspaper3k
     - gnews>=0.3.6
+    - qdrant-client
 
     # python utils
     - fire
@@ -59,3 +60,4 @@ dependencies:
     - faiss-cpu
     - lancedb
     - tifffile
+    - soundfile
