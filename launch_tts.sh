@@ -7,9 +7,12 @@ docker run \
 --entrypoint /bin/bash \
 ghcr.io/coqui-ai/tts
 
+python3 TTS/server/server.py --model_name tts_models/en/vctk/vits --use_cuda true
 
 # python3 TTS/server/server.py --list_models
 # python3 TTS/server/server.py --model_name tts_models/en/vctk/vits --use_cuda true
+
+# python3 TTS/server/server.py --model_name tts_models/multilingual/multi-dataset/bark --use_cuda true
 
 
 
@@ -23,3 +26,17 @@ ghcr.io/coqui-ai/tts
 # Useful links:
 #    --> python server TTS: https://github.com/coqui-ai/TTS/discussions/1634
 #    --> cTTS (python TTS server) : https://github.com/thorstenMueller/cTTS
+
+
+
+# To run xtts-v2:
+#    --> https://github.com/coqui-ai/TTS/issues/3140#issuecomment-1882549618
+#
+# python3 TTS/server/server.py \
+#     --model_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2 \
+#     --config_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2/config.json 
+
+
+# To run Bark
+# python3 TTS/server/server.py     --model_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--bark     --config_path ~/.local/share/tts/tts_models--mult
+# ilingual--multi-dataset--bark/config.json

@@ -37,6 +37,7 @@ pre-commit
 mypy
 types-PyYAML
 loguru
+streamlit
 
 bitsandbytes
 faiss-cpu
