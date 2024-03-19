@@ -38,3 +38,4 @@ InstructorEmbedding
 faiss-cpu
 lancedb
 tifffile
+qdrant-client[fastembed]

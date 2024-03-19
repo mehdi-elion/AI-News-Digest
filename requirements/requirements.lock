@@ -134,12 +134,24 @@ fsspec==2024.3.1
 gnews==0.2.2
 greenlet==3.0.3
     # via sqlalchemy
+grpcio==1.62.1
+    # via
+    #   grpcio-tools
+    #   qdrant-client
+grpcio-tools==1.62.1
+    # via qdrant-client
 h11==0.14.0
     # via httpcore
+h2==4.1.0
+    # via httpx
+hpack==4.0.0
+    # via h2
 httpcore==1.0.4
     # via httpx
 httpx==0.27.0
-    # via jupyterlab
+    # via
+    #   jupyterlab
+    #   qdrant-client
 huggingface-hub==0.21.4
     # via
     #   accelerate
@@ -147,6 +159,8 @@ huggingface-hub==0.21.4
     #   sentence-transformers
     #   tokenizers
     #   transformers
+hyperframe==6.0.1
+    # via h2
 identify==2.5.35
     # via pre-commit
 idna==3.6
@@ -318,6 +332,7 @@ numpy==1.26.4
     #   pandas
     #   pyarrow
     #   pylance
+    #   qdrant-client
     #   scikit-learn
     #   scipy
     #   sentence-transformers
@@ -395,11 +410,15 @@ platformdirs==4.2.0
     #   jupyter-core
     #   virtualenv
 plotly==5.20.0
+portalocker==2.8.2
+    # via qdrant-client
 pre-commit==3.6.2
 prometheus-client==0.20.0
     # via jupyter-server
 prompt-toolkit==3.0.43
     # via ipython
+protobuf==4.25.3
+    # via grpcio-tools
 psutil==5.9.8
     # via
     #   accelerate
@@ -424,6 +443,7 @@ pydantic==2.6.4
     #   langchain
     #   langchain-core
     #   langsmith
+    #   qdrant-client
 pydantic-core==2.16.3
     # via pydantic
 pygments==2.16.1
@@ -469,6 +489,7 @@ pyzmq==25.1.2
     #   ipykernel
     #   jupyter-client
     #   jupyter-server
+qdrant-client==1.5.0
 ratelimiter==1.2.0.post0
     # via lancedb
 referencing==0.34.0
@@ -536,7 +557,9 @@ send2trash==1.8.2
 sentence-transformers==2.5.1
 sentencepiece==0.2.0
 setuptools==69.2.0
-    # via nodeenv
+    # via
+    #   grpcio-tools
+    #   nodeenv
 sgmllib3k==1.0.0
     # via feedparser
 six==1.16.0
@@ -650,8 +673,10 @@ tzdata==2024.1
 umap-learn==0.5.5
 uri-template==1.3.0
     # via jsonschema
-urllib3==2.2.1
-    # via requests
+urllib3==1.26.18
+    # via
+    #   qdrant-client
+    #   requests
 virtualenv==20.25.1
     # via pre-commit
 wcwidth==0.2.13
