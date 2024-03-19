@@ -39,3 +39,4 @@ faiss-cpu
 lancedb
 tifffile
 qdrant-client[fastembed]
+polars

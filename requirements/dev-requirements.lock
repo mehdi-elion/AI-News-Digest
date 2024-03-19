@@ -417,6 +417,7 @@ platformdirs==3.11.0
     #   jupyter-core
     #   virtualenv
 plotly==5.20.0
+polars==0.20.16
 portalocker==2.8.2
     # via qdrant-client
 pre-commit==3.4.0
