@@ -32,6 +32,14 @@ conda activate ai_news
 
 ## How to run your project
 
+### Setup Qdrant locally
+
+To set up Qdrant locally, you can use [Docker Compose](https://docs.docker.com/compose/). To start Qdrant, run the following command in the root directory of the project:
+
+```bash
+docker compose up -d
+```
+You can now access `Qdrant` at `http://localhost:6333/dashboard`.
 
 ## How to test your project
 
