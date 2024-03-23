@@ -39,7 +39,7 @@ To set up Qdrant locally, you can use [Docker Compose](https://docs.docker.com/c
 ```bash
 docker compose up -d
 ```
-You can now access `Qdrant` at `http://localhost:6333/dashboard`.
+You can now access `Qdrant` at [http://localhost:6333/dashboard](http://locahost:6333/dashboard).
 
 ## How to test your project
 
