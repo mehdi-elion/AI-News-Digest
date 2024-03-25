@@ -16,4 +16,4 @@ services:
 
 configs:
   qdrant_config:
-    file: ./qdrant_config.yaml
+    file: conf/base/qdrant_config.yaml
