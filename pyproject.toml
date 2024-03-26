@@ -54,6 +54,9 @@ exclude = "tests"
 all = true
 
 [tool.ruff]
+line-length = 120
+target-version = "py310"
+
 select = [
   "E",
   "W",
@@ -63,8 +66,10 @@ select = [
   "N",
   "C4",
   "TRY",
+  "D",
 ]
 
+[tool.ruff.lint]
 ignore = [
     "N806",
     "TRY003",
@@ -95,10 +100,12 @@ exclude = [
     "node_modules",
     "venv",
 ]
-line-length = 120
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
 max-complexity = 5
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
 
 [tool.jupytext.formats]
 "notebooks/" = "ipynb"

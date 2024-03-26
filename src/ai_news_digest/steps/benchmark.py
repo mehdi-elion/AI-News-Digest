@@ -1,4 +1,4 @@
-import datetime
+import datetime  # noqa: D100
 import json
 import random
 from pathlib import Path

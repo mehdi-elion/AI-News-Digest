@@ -70,14 +70,6 @@ repos:
         --disallow-untyped-defs,
         ]
 
-- repo: https://github.com/pycqa/pydocstyle
-  rev: 6.3.0
-  hooks:
-  - id: pydocstyle
-    additional_dependencies: ["toml"]
-    args:
-    - --ignore=D100,D203,D405,D104,D416,D212,D213
-
 - repo: https://github.com/hadialqattan/pycln
   rev: v2.3.0
   hooks:

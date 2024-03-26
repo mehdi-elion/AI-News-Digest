@@ -1,4 +1,5 @@
-import datetime
+import datetime  # noqa: D100
+import os
 from pathlib import Path
 
 import torch
@@ -54,3 +55,32 @@ def check_gpu_availability() -> str:
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     logger.info(f"Chose following device: '{device}'")
     return device
+
+
+def get_root_project_path() -> str | None:
+    """Search for the root project path by looking for the `pyproject.toml` file.
+
+    Returns
+    -------
+        str: The path to the root project.
+    """
+    current_path = Path.cwd()
+    logger.info(f"Starting search from path: {current_path}")
+
+    if "pyproject.toml" in os.listdir(current_path):
+        logger.info(f"Found root project: {current_path}")
+        return str(current_path)
+
+    stack = []
+    stack.append(current_path.parent)
+
+    while stack:
+        current_path = stack.pop()
+        logger.info(f"Searching at: {current_path}")
+        if "pyproject.toml" in os.listdir(current_path):
+            logger.info(f"Found root project: {current_path}")
+            return str(current_path)
+        else:
+            next_path = current_path.parent
+            stack.append(next_path)
+    return None

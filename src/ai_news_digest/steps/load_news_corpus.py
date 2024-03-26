@@ -1,4 +1,4 @@
-import json
+import json  # noqa: D100
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import time
