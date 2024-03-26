@@ -105,7 +105,7 @@ exclude = [
 max-complexity = 5
 
 [tool.ruff.lint.pydocstyle]
-convention = "google"
+convention = "numpy"
 
 [tool.jupytext.formats]
 "notebooks/" = "ipynb"

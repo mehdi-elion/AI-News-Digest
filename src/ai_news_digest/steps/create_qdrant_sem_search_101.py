@@ -1,4 +1,4 @@
-import json
+import json  # noqa: D100
 import shutil
 from pathlib import Path
 from typing import Any

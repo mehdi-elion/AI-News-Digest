@@ -1,4 +1,4 @@
-import json
+import json  # noqa: D100
 
 import lancedb
 import pandas as pd

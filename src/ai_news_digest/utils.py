@@ -1,4 +1,4 @@
-import datetime
+import datetime  # noqa: D100
 import os
 from pathlib import Path
 
@@ -60,7 +60,8 @@ def check_gpu_availability() -> str:
 def get_root_project_path() -> str | None:
     """Search for the root project path by looking for the `pyproject.toml` file.
 
-    Returns:
+    Returns
+    -------
         str: The path to the root project.
     """
     current_path = Path.cwd()
