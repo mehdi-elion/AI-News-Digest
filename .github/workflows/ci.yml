@@ -22,7 +22,7 @@ jobs:
         run: pip install uv
 
       - name: Create virtual environment
-        run: uv venv venv
+        run: uv venv
 
       - name: Cache dependencies
         id: cache-dependencies
