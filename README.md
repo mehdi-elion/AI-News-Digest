@@ -1,6 +1,6 @@
 # AI News Digest
 
-![ci](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg?branch=gh-actions-set-up)
 
 ## Overview
 
