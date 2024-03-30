@@ -25,6 +25,7 @@ repos:
   - id: ruff
     types_or: [ python, pyi]   # TODO: add jupyter to the list (later)
     args: ['--fix']
+    exclude: '^test'
   # Use ruff as formatter
   - id: ruff-format
     types_or: [ python, pyi]
@@ -69,6 +70,7 @@ repos:
         --disallow-incomplete-defs,
         --disallow-untyped-defs,
         ]
+    exclude: '^test'
 
 - repo: https://github.com/hadialqattan/pycln
   rev: v2.3.0
