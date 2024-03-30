@@ -2,7 +2,50 @@ name: ci
 
 on:
   pull_request:
+    types: [opened, synchronize]
   push:
-    branches: ['master', 'develop', 'feat/**', 'fix/**']
+    branches: ['master', 'develop']
+    tags: ['**']
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        name: Set up Python
+        with:
+          python-version: '3.10'
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Cache dependencies
+        id: cache-dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/uv
+          key: ${{ runner.os }}-uv-${{ hashFiles('requirements/dev-requirements.lock', 'pyproject.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-uv$-{{ hashFiles('requirements/dev-requirements.lock', 'pyproject.toml') }}-
+
+      - name: Install dependencies
+        if: steps.cache-dependencies.outputs.cache-hit != 'true'
+        run: uv pip install -r requirements/dev-requirements.lock
+
+      - name: Cache pre-commit
+        id: cache-pre-commit
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit|${{ hashFiles('.pre-commit-config.yaml') }}
+          restore-keys: |
+            pre-commit|${{ hashFiles('.pre-commit-config.yaml') }}
+
+      - name: Setup pre-commit
+        if: steps.cache-pre-commit.outputs.cache-hit != ‘true’
+        run: pre-commit install
+
+      - name: Run pre-commit
+        run: pre-commit run --all-files --show-diff-on-failure
