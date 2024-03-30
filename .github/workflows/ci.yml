@@ -28,7 +28,7 @@ jobs:
           path: ~/.cache/uv
           key: ${{ runner.os }}-uv-${{ hashFiles('requirements/dev-requirements.lock', 'pyproject.toml') }}
           restore-keys: |
-            ${{ runner.os }}-uv$-{{ hashFiles('requirements/dev-requirements.lock', 'pyproject.toml') }}-
+            ${{ runner.os }}-uv$-{{ hashFiles('requirements/dev-requirements.lock', 'pyproject.toml') }}
 
       - name: Install dependencies
         if: steps.cache-dependencies.outputs.cache-hit != 'true'
