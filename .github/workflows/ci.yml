@@ -44,7 +44,7 @@ jobs:
             pre-commit|${{ hashFiles('.pre-commit-config.yaml') }}
 
       - name: Setup pre-commit
-        if: steps.cache-pre-commit.outputs.cache-hit != ‘true’
+        if: steps.cache-pre-commit.outputs.cache-hit != 'true'
         run: pre-commit install
 
       - name: Run pre-commit
