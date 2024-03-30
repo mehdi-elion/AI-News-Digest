@@ -1,5 +1,7 @@
 # AI News Digest
 
+![ci](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg)
+
 ## Overview
 
 This is your new Data project, which was generated using cookiecutter.
