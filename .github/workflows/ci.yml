@@ -95,4 +95,4 @@ jobs:
           echo "PATH=$PATH" >> "$GITHUB_ENV"
 
       - name: Run tests
-        run: python -m pytest
+        run: pytest
