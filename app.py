@@ -30,6 +30,13 @@ from src.ai_news_digest.steps.clustering_utils import (
 import src.ai_news_digest.steps.load_news_corpus as lnc
 import src.ai_news_digest.steps.load_arxiv_corpus as lac
 import src.ai_news_digest.steps.llm_utils as llmu
+from src.ai_news_digest.steps.llm_utils import (
+    SUMMARY_PROMPT_TEMPLATE,
+    KEYWORD_PROMPT_TEMPLATE,
+    TITLE_PROMPT_TEMPLATE,
+    RAG_TEMPLATE,
+    DEFAULT_DOCUMENT_PROMPT,
+)
 
 # check GPU availablility
 device = check_gpu_availability()
@@ -63,40 +70,6 @@ TTS_PARAMS = {
     'out_path': "/root/tts-output/hello.wav",
     # 'language_id': "en",
 }
-
-# define summarization prompt
-summary_prompt_template = """<s>[INST]You will be provided with a list of news articles that you must summarize.
-Write a concise summary focusing on the key pieces of information mentioned in the articles.
-Make sure the summary covers all the issues tackled in the group of articles. Use less than 200 words.
-Here is the list of articles:
-"{text}"
-CONCISE SUMMARY (less than 180 words): [/INST]"""
-
-# define keyword-generation prompt
-keyword_prompt_template = """<s>[INST]You will be provided with a summary made from a list of news articles.
-Extract a list of keywords that best covers all pieces of information tackled in this articles.
-Don't use brackets or any special characters. Use only commas to separate keywords.
-Here is the summary of articles:
-"{}"
-CONCISE COMMA-SEPARATED LIST OF KEYWORDS: [/INST]"""
-
-# define title-generation prompt
-title_prompt_template = """<s>[INST]You will be provided with a summary made from a list of news articles.
-Write a short title that best covers all pieces of information tackled in this articles.
-Don't use brackets or any special characters. Don't provide any explanation or alternative title. 
-Write only one unique title in less than 15 words.
-Here is the summary of articles:
-"{}"
-UNIQUE TITLE (< 15 words): [/INST]"""
-
-# define RAG prompt template
-template = """<s>[INST]Concisely answer the question (in less than 180 words) based only on the following context:
-{context}
-
-Question: {question}
-
-Answer: [/INST]
-"""
 
 # set random seeds
 np.random.seed(123)
@@ -175,22 +148,14 @@ with st.sidebar:
         type="primary",
     )
 
-print(f"keywords = '{keywords}'")
-print(f"days = {days}")
-print(f"max_results = {max_results}")
-print(f"generate_button = {generate_button}")
-print(f"st.session_state = {st.session_state}")
-
 clustering_is_done = 'df_data' in st.session_state
 clustering_is_done = clustering_is_done and 'df_umap' in st.session_state
 clustering_is_done = clustering_is_done and 'df_analysis' in st.session_state
-print(f"clustering_is_done = {clustering_is_done}")
 
 if clustering_is_done:
     run_clustering = generate_button
 else:
     run_clustering = generate_button
-print(f"run_clustering = {run_clustering}")
 
 if run_clustering:
         
@@ -215,8 +180,6 @@ if run_clustering:
         df_data = pd.DataFrame({d["url"]: d for d in res_gnews}).transpose()
         df_data = df_data.dropna(subset=["content"], axis=0)
         st.session_state['df_data'] = df_data
-        print(df_data.shape)
-        print(df_data.head())
 
 if "df_data" in st.session_state:
     expander_news_data = st.expander("See fetched news articles")
@@ -247,7 +210,6 @@ if run_clustering:
             columns=[f"embed_{i}" for i in range(embeddings.shape[1])],
             index=df_data.index
         )
-        print("df_embed: ", df_embed.reset_index(drop=True).head())
 
     # Clustering articles
     with st.spinner('Clustering articles...'):
@@ -284,7 +246,7 @@ if "fig" in st.session_state:
 if run_clustering:
     
     # summarizing articles
-    with st.spinner('Summarizing articles...'):
+    with st.spinner('Summarizing clusters of articles...'):
 
         # Connect to deployed vLLM API
         llm = load_llm()
@@ -293,7 +255,6 @@ if run_clustering:
         # retrieve list of clusters
         clusters_list = sorted(df_umap["cluster"].unique().tolist())
         num_clusters = len(clusters_list)
-        print(f"num_clusters = {num_clusters}")
 
         # init dataframe to store results
         df_analysis = pd.DataFrame(columns=["cluster_idx", "title", "keywords", "summary"])
@@ -301,7 +262,7 @@ if run_clustering:
         # iterate over clusters
         my_bar = st.progress(0, text="Summarizing clusters of articles")
         for k, idx in enumerate(clusters_list):
-            my_bar.progress((k)/(num_clusters-1), text=f"cluster n°{k}...")
+            my_bar.progress((k)/(num_clusters-1), text=f"cluster n°{k}/{num_clusters-1}...")
 
             # query docs from current cluster
             df_cluster = df_umap.query("cluster==@idx").copy()
@@ -318,13 +279,13 @@ if run_clustering:
             # TODO: pre-summarize each article if too long
 
             # summarize
-            summary = llmu.summarize_recurse(llm, summary_prompt_template, docs)
+            summary = llmu.summarize_recurse(llm, SUMMARY_PROMPT_TEMPLATE, docs)
 
             # generate a title
-            title = llm.predict(title_prompt_template.format(summary))
+            title = llm.predict(TITLE_PROMPT_TEMPLATE.format(summary))
 
             # generate keywords
-            keywords = llm.predict(keyword_prompt_template.format(summary))
+            keywords = llm.predict(KEYWORD_PROMPT_TEMPLATE.format(summary))
             keywords = [s.strip() for s in keywords.strip().split(",")]
 
             # store results
@@ -361,11 +322,10 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
         index=0,
     )
     cluster_idx = list(df_analysis.title.values.flatten()).index(cluster_choice)
-    cluster_idx = df_analysis.loc[cluster_idx, "cluster_idx"]
+    cluster_idx0 = df_analysis.index[cluster_idx]   # re-indexing if "-1" cluster
+    cluster_idx = df_analysis.loc[cluster_idx0, "cluster_idx"]
     if 'cluster_choice' not in st.session_state:
         st.session_state["cluster_choice"] = cluster_choice
-    print(f"cluster_choice = {cluster_choice}")
-    print(f"cluster_idx (type)= {cluster_idx} ({type(cluster_idx)})")
 
     # create separate tabs for RAG and TTS
     tab1, tab2 = st.tabs(["💬 RAG", "🔊 TTS"])
@@ -378,7 +338,6 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
 
         # retrieve cluster docs
         df_cluster = df_umap[df_umap["cluster"]==cluster_idx]
-        print("df_cluster = ", df_cluster)
         docs = [
             Document(
                 page_content=f"Article n°{i} -- {row['content']}",
@@ -408,33 +367,25 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
 
         # define langchain retriever
         retriever = qdrant.as_retriever(search_kwargs=dict(k=5))
-
-        # define helper function
-        DEFAULT_DOCUMENT_PROMPT = PromptTemplate.from_template(template="{page_content}")
-        def _combine_documents(
-            docs, document_prompt=DEFAULT_DOCUMENT_PROMPT, document_separator="\n\n"
-        ):
-            doc_strings = [format_document(doc, document_prompt) for doc in docs]
-            return document_separator.join(doc_strings)
         
         # define ptompt template
-        prompt = ChatPromptTemplate.from_template(template)
+        prompt = ChatPromptTemplate.from_template(RAG_TEMPLATE)
 
         # define RAG chain
         chain = (
             {
-                "context": itemgetter("question") | retriever | _combine_documents,
+                "context": itemgetter("question") 
+                    | retriever 
+                    | llmu._combine_documents,
                 "question": itemgetter("question"),
             }
             | prompt
-            # | llm
             | st.session_state["llm"]
             | StrOutputParser()
         )
 
         # set question  
         question = tab1.chat_input("Ask anything about the chosen cluster:")
-
 
         if question:
             messages.chat_message("user").write(question)
@@ -452,22 +403,17 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
     # TTS tab
     tab2.subheader("Let an AI read your News !")
     
-    print("st.session_state['cluster_choice'] = ", st.session_state['cluster_choice'])
-
     if st.session_state['cluster_choice'] is not None:
         tab2.write(f"You chose cluster n°{cluster_idx}: {cluster_choice}")
         tts_button = tab2.button("Generate Speech", type="primary")
         if 'tts_button' not in st.session_state:
             st.session_state['tts_button'] = tts_button
-            print("here")
         
-        print("tts_button = ", tts_button)
-
         if tts_button:
 
             # text to synthesize as speech
-            text = df_analysis.iloc[int(cluster_idx)]["title"] 
-            text = text + "\n\n" + df_analysis.iloc[int(cluster_idx)]["summary"]
+            text = df_analysis.loc[cluster_idx0, "title"] 
+            text = text + "\n\n" + df_analysis.loc[cluster_idx0, "summary"]
         
             # build request for tts server
             params = deepcopy(TTS_PARAMS)
