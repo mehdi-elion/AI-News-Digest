@@ -453,7 +453,6 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
     tab2.subheader("Let an AI read your News !")
     
     print("st.session_state['cluster_choice'] = ", st.session_state['cluster_choice'])
-    print("st.session_state['tts_button'] = ", st.session_state['tts_button'])
 
     if st.session_state['cluster_choice'] is not None:
         tab2.write(f"You chose cluster n°{cluster_idx}: {cluster_choice}")
