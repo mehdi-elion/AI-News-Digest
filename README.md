@@ -1,6 +1,6 @@
 # AI News Digest
 
-![CI](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg)
+[![.github/workflows/ci.yml](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg)](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml)
 
 ## Overview
 
