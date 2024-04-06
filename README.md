@@ -15,6 +15,7 @@ In order to get the best out of the template:
 
 ## How to install dependencies
 
+### With Conda
 Declare any dependencies in `src/requirements.txt` for `pip` installation and `src/environment.yml` for `conda` installation.
 
 To install them, run:
@@ -28,6 +29,36 @@ or
 ```console
 conda env create -f src/environment.yml --force
 conda activate ai_news
+```
+
+### With uv / pip
+
+Make sure `uv` is installed.
+
+To install the dependencies run:
+
+```bash
+uv pip install -r requirements/requirements.lock
+```
+To install the dev dependencies run:
+
+```bash
+uv pip install -r requirements/dev-requirements.lock
+```
+
+To add and install a new dependencie perform the following steps:
+
+1. Add the dependency to the desired requirement file i-e `requirements/requirements.in`
+
+2. Generate the compiled dependencies file with the command:
+
+```bash
+uv pip compile requirements/requirements.in -o requirements/requirements.txt
+```
+
+3. Install your requirements
+```bash
+uv pip install -r requirements/requirements.lock
 ```
 
 ## How to run your project
@@ -48,7 +79,7 @@ cp .env.example .env
 
 ```bash
 docker compose up -d
-```
+``
 You can now access `Qdrant` at [http://localhost:6333/dashboard](http://localhost:6333/dashboard).
 
 The `gen-api` service powered by [vLLM](https://docs.vllm.ai/en/latest/https://docs.vllm.ai/en/latest/) will be available at [http://localhost:8000](http://localhost:8000).
