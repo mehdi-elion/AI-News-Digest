@@ -32,17 +32,33 @@ conda activate ai_news
 
 ## How to run your project
 
-### Setup Qdrant locally
+### Local setup
 
-To set up Qdrant locally, you can use [Docker Compose](https://docs.docker.com/compose/). To start Qdrant, run the following command in the root directory of the project:
+To set up your project locally, you can use [Docker Compose](https://docs.docker.com/compose/).
+Perform the following steps.
+
+1. take a look at `.env.example` then run:
+
+```bash
+cp .env.example .env
+```
+2. Now fill the `.env` with your desired values.
+
+3. Run the following command in the root directory of the project:
 
 ```bash
 docker compose up -d
 ```
 You can now access `Qdrant` at [http://localhost:6333/dashboard](http://localhost:6333/dashboard).
+The `gen-api` service powered by [vLLM](https://docs.vllm.ai/en/latest/https://docs.vllm.ai/en/latest/) will be available at [http://localhost:8000](http://localhost:8000).
+The `embed-api` service powered by [TGI](https://huggingface.co/docs/text-generation-inference/index) will be available at [http://localhost:8081](http://localhost:8081).
 
 ## How to test your project
 
+At the root of your project run:
+```bash
+pytest
+```
 
 ## Project dependencies
 
