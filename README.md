@@ -57,6 +57,7 @@ uv pip compile requirements/requirements.in -o requirements/requirements.txt
 ```
 
 3. Install your requirements
+
 ```bash
 uv pip install -r requirements/requirements.lock
 ```
@@ -79,7 +80,7 @@ cp .env.example .env
 
 ```bash
 docker compose up -d
-``
+```
 You can now access `Qdrant` at [http://localhost:6333/dashboard](http://localhost:6333/dashboard).
 
 The `gen-api` service powered by [vLLM](https://docs.vllm.ai/en/latest/https://docs.vllm.ai/en/latest/) will be available at [http://localhost:8000](http://localhost:8000).
@@ -89,6 +90,7 @@ The `embed-api` service powered by [TGI](https://huggingface.co/docs/text-genera
 ## How to test your project
 
 At the root of your project run:
+
 ```bash
 pytest
 ```
