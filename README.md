@@ -50,7 +50,9 @@ cp .env.example .env
 docker compose up -d
 ```
 You can now access `Qdrant` at [http://localhost:6333/dashboard](http://localhost:6333/dashboard).
+
 The `gen-api` service powered by [vLLM](https://docs.vllm.ai/en/latest/https://docs.vllm.ai/en/latest/) will be available at [http://localhost:8000](http://localhost:8000).
+
 The `embed-api` service powered by [TGI](https://huggingface.co/docs/text-generation-inference/index) will be available at [http://localhost:8081](http://localhost:8081).
 
 ## How to test your project
