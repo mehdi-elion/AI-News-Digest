@@ -390,6 +390,12 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
         )
 
         # set question  
+        tab1.info(
+            "Please not that only the current question and cluster's " \
+            "articles are used to generate the anwser " \
+            "(chat history is not used)", 
+            icon="ℹ️"
+        )
         question = tab1.chat_input("Ask anything about the chosen cluster:")
         messages.chat_message("assistant").write("Hello, what would you like to know ?")
 
