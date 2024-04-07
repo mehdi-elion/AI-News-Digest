@@ -43,7 +43,8 @@ conda activate ai_news
 Quick and non-exhaustive list of tasks:
 - [ ] add slider to tune HDBSCAN params from streamlit sidebar
 - [ ] re-arrange streamlit results/viz to make it more pleasant to watch
-- [ ] display plain-text summary in TTS tab
+- [ ] solve problem of texts/summaries that are too long for TTS (get trucated)
+- [x] display plain-text summary in TTS tab
 - [x] display chat history
 - [x] enable gnews and/or newsapi backends for news corpus retrieval
 - [x] plug RAG pipeline with :

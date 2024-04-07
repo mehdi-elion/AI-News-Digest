@@ -453,6 +453,9 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
             x, sr = librosa.load("data/07_model_output/test.wav")
             tab2.audio(x, sample_rate=sr)
 
+            # display text as well for better UX
+            st.markdown(text + "\n" + df_analysis.loc[cluster_idx0, "summary"])
+
 
 
 
