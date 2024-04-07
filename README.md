@@ -41,9 +41,16 @@ conda activate ai_news
 
 ## TODO List
 Quick and non-exhaustive list of tasks:
+- [ ] update README with instructions to start micsroservices and app
+- [ ] refactor streamlit app code as much as possible
 - [ ] add slider to tune HDBSCAN params from streamlit sidebar
+- [ ] investigate possibility of adaptive HDBSCAN hyperparams to control num clusters
 - [ ] re-arrange streamlit results/viz to make it more pleasant to watch
 - [ ] solve problem of texts/summaries that are too long for TTS (get trucated)
+- [ ] solve problem of n_jobs and random seeds conflict
+- [ ] explore custom TTS APIs with FastAPI/Flask & MeloTTS/StyleTTS2
+- [ ] add safeguards to control LLM generations (e.g. avoid "or" in title gen)
+- [x] add info bubble to let users know that past Q&As are not used for new RAG answer
 - [x] display plain-text summary in TTS tab
 - [x] display chat history
 - [x] enable gnews and/or newsapi backends for news corpus retrieval
