@@ -454,7 +454,7 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
             tab2.audio(x, sample_rate=sr)
 
             # display text as well for better UX
-            st.markdown(text + "\n" + df_analysis.loc[cluster_idx0, "summary"])
+            tab2.markdown(text + "\n" + df_analysis.loc[cluster_idx0, "summary"])
 
 
 
