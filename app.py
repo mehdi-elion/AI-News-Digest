@@ -326,6 +326,11 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
     cluster_idx = df_analysis.loc[cluster_idx0, "cluster_idx"]
     if 'cluster_choice' not in st.session_state:
         st.session_state["cluster_choice"] = cluster_choice
+    else:
+        if st.session_state["cluster_choice"] != cluster_choice:
+            st.session_state["cluster_choice"] = cluster_choice
+            if "chat_history" in st.session_state:
+                del st.session_state["chat_history"]
 
     # create separate tabs for RAG and TTS
     tab1, tab2 = st.tabs(["💬 RAG", "🔊 TTS"])
@@ -386,6 +391,19 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
 
         # set question  
         question = tab1.chat_input("Ask anything about the chosen cluster:")
+        messages.chat_message("assistant").write("Hello, what would you like to know ?")
+
+        if "chat_history" in st.session_state:
+            print("st.session_state['chat_history']", st.session_state["chat_history"])
+            for msgs in st.session_state["chat_history"]:
+                for msg_idx, msg in enumerate(msgs):
+                    if msg_idx%2==0:
+                        messages.chat_message("user").write(msg)
+                        print("user: ", msg)
+                    else:
+                        messages.chat_message("assistant").write(msg)
+                        print("assistant: ", msg)
+
 
         if question:
             messages.chat_message("user").write(question)
@@ -398,6 +416,11 @@ if 'df_analysis' in st.session_state and "df_umap" in st.session_state:
 
             # write answer
             messages.chat_message("assistant").write(f"{answer}") 
+
+            # store in chat history
+            if not "chat_history" in st.session_state:
+                st.session_state["chat_history"] = []
+            st.session_state["chat_history"].append([question, answer])
             
     
     # TTS tab
