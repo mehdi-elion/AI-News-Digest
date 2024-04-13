@@ -64,3 +64,5 @@ dependencies:
     - soundfile
     - librosa
     - cTTS
+    - skypilot-nightly[runpod]
+

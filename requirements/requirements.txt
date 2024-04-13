@@ -8,9 +8,9 @@ arxiv
 langchain
 langchain-community
 huggingface_hub
-torch --index-url https://download.pytorch.org/whl/cu117
-torchvision --index-url https://download.pytorch.org/whl/cu117
-torchaudio --index-url https://download.pytorch.org/whl/cu117
+torch --index-url https://download.pytorch.org/whl/cu121
+torchvision --index-url https://download.pytorch.org/whl/cu121
+torchaudio --index-url https://download.pytorch.org/whl/cu121
 transformers>=4.34.0
 ctransformers
 sentencepiece
@@ -46,3 +46,4 @@ tifffile
 soundfile
 librosa
 cTTS
+skypilot-nightly[runpod]
