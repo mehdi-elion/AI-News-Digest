@@ -23,11 +23,14 @@ dependencies:
     - tokenizers>=0.13.3
     # - flash_attn
     - ctransformers
+    - openai
+    - vllm
     - scikit-learn
     - tiktoken
     - newsapi-python
     - newspaper3k
-    - gnews
+    - gnews>=0.3.6
+    - qdrant-client
 
     # python utils
     - fire
@@ -36,7 +39,9 @@ dependencies:
     - pandas
     - pre-commit
     - mypy
+    - types-PyYAML
     - loguru
+    - streamlit
 
     # viz
     - matplotlib
@@ -56,3 +61,7 @@ dependencies:
     - faiss-cpu
     - lancedb
     - tifffile
+    - soundfile
+    - librosa
+    - cTTS
+    - skypilot-nightly[runpod]

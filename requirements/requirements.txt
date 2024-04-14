@@ -8,15 +8,18 @@ arxiv
 langchain
 langchain-community
 huggingface_hub
-torch --index-url https://download.pytorch.org/whl/cu117
-torchvision --index-url https://download.pytorch.org/whl/cu117
-torchaudio --index-url https://download.pytorch.org/whl/cu117
+torch --index-url https://download.pytorch.org/whl/cu121
+torchvision --index-url https://download.pytorch.org/whl/cu121
+torchaudio --index-url https://download.pytorch.org/whl/cu121
 transformers>=4.34.0
 ctransformers
 sentencepiece
 tokenizers>=0.13.3
 accelerate
+openai
+vllm
 # flash_attn
+qdrant-client
 
 umap-learn
 plotly
@@ -26,15 +29,21 @@ instructorembedding
 sentence_transformers
 newsapi-python
 newspaper3k
-gnews
+gnews>=0.3.6
 
 fire
 tqdm
 pre-commit
 mypy
+types-PyYAML
 loguru
+streamlit
 
 bitsandbytes
 faiss-cpu
 lancedb
 tifffile
+soundfile
+librosa
+cTTS
+skypilot-nightly[runpod]

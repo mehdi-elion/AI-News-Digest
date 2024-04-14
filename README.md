@@ -102,19 +102,27 @@ pytest
 
 ## TODO List
 Quick and non-exhaustive list of tasks:
-- [ ] iterate over newsapi sources & domains to curb the 100-article limit (free-tier)
-- [ ] enable gnews and/or newsapi backends for news corpus retrieval
-- [ ] debug text-embedding-inference API usage
-- [ ] use text-generation-inference API with small models
-- [ ] plug RAG pipeline with :
-    - [ ] text-gen/embed-inference APIs
-    - [ ] small Models
-    - [ ] clustering & viz pipelines
-    - [ ] summarization pipeline
-- [ ] add cunking feature to RAG pipeline
-- [ ] improve clusetring stage with:
-    - [ ] HDBscan
-    - [ ] normalization of preojected coordinates (umap) for easier setup of clustering thresholds
+- [ ] update README with instructions to start micsroservices and app
+- [ ] refactor streamlit app code as much as possible
+- [ ] add slider to tune HDBSCAN params from streamlit sidebar
+- [ ] investigate possibility of adaptive HDBSCAN hyperparams to control num clusters
+- [ ] re-arrange streamlit results/viz to make it more pleasant to watch
+- [ ] solve problem of texts/summaries that are too long for TTS (get trucated)
+- [ ] solve problem of n_jobs and random seeds conflict
+- [ ] explore custom TTS APIs with FastAPI/Flask & MeloTTS/StyleTTS2
+- [ ] add safeguards to control LLM generations (e.g. avoid "or" in title gen)
+- [x] add info bubble to let users know that past Q&As are not used for new RAG answer
+- [x] display plain-text summary in TTS tab
+- [x] display chat history
+- [x] enable gnews and/or newsapi backends for news corpus retrieval
+- [x] plug RAG pipeline with :
+    - [x] vLLM
+    - [x] clustering & viz pipelines
+    - [x] summarization pipeline
+- [x] add chunking feature to RAG pipeline
+- [x] improve clusetring stage with:
+    - [x] HDBscan
+    - [x] normalization of preojected coordinates (umap) for easier setup of clustering thresholds
     - [ ] try Deep TDA (topological Data Analysis) as a replacement for UMAP
         - [medium article](https://medium.com/@juanc.olamendy/deep-tda-a-new-dimensionality-reduction-algorithm-2d04fa6ed2eb)
         - [giotto-tda](https://giotto-ai.github.io/gtda-docs/0.5.1/library.html)
@@ -122,3 +130,4 @@ Quick and non-exhaustive list of tasks:
         - [linkedin article](https://www.linkedin.com/pulse/deep-tda-new-dimensionality-reduction-algorithm-olamendy-turruellas/)
         - [scikit-tda](https://scikit-tda.org/)
     - [ ] use the elbow method
+- [ ] debug text-embedding-inference API usage

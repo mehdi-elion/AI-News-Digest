@@ -56,6 +56,9 @@ jobs:
         if: steps.cache-pre-commit.outputs.cache-hit != 'true'
         run: pre-commit install
 
+      - name: Install mypy types
+        run: uv pip install types-requests
+
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure
 
