@@ -54,7 +54,10 @@ jobs:
 
       - name: Setup pre-commit
         if: steps.cache-pre-commit.outputs.cache-hit != 'true'
-        run: pre-commit install && mypy --install-types
+        run: pre-commit install
+      
+      - name: Install mypy types
+        run: mypy --install-types
 
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure
