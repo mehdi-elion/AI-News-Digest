@@ -57,7 +57,7 @@ jobs:
         run: pre-commit install
 
       - name: Install mypy types
-        run: python3 -m pip install types-requests
+        run: uv pip install types-requests
 
       - name: Run pre-commit
         run: pre-commit run --all-files --show-diff-on-failure
