@@ -20,7 +20,7 @@ python3 TTS/server/server.py --model_name tts_models/en/vctk/vits --use_cuda tru
 
 
 
-# Server source code: 
+# Server source code:
 #    --> https://github.com/coqui-ai/TTS/blob/dev/TTS/server/server.py
 
 # Useful links:
@@ -34,7 +34,7 @@ python3 TTS/server/server.py --model_name tts_models/en/vctk/vits --use_cuda tru
 #
 # python3 TTS/server/server.py \
 #     --model_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2 \
-#     --config_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2/config.json 
+#     --config_path ~/.local/share/tts/tts_models--multilingual--multi-dataset--xtts_v2/config.json
 
 
 # To run Bark

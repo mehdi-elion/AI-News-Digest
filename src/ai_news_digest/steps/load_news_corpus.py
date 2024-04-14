@@ -3,12 +3,12 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from time import time
 from typing import Any, Dict, List, Optional, Tuple
-from joblib import Parallel, delayed, parallel_config
 
 import newspaper
 import pandas as pd
 import yaml
 from gnews import GNews
+from joblib import Parallel, delayed
 from loguru import logger
 from newsapi import NewsApiClient
 
@@ -35,8 +35,6 @@ def load_credentials(path_to_creds: str = "conf/local/credentials.yml") -> Dict[
     return credentials
 
 
-
-
 # TODO: combine with `newspaper3k` to load full article texts
 def load_news_gnews_parallel(
     keywords: str,
@@ -50,7 +48,7 @@ def load_news_gnews_parallel(
     override_content: bool = False,
     use_logs: bool = False,
     standardize: bool = False,
-    n_jobs: Optional[int]=None,
+    n_jobs: Optional[int] = None,
 ) -> List[Dict[str, Any]]:
     """Load a set of news using the GNews library.
 
@@ -83,6 +81,8 @@ def load_news_gnews_parallel(
     standardize : bool
         Whether to post-process results to have the match a given standard,
         by default False.
+    n_jobs : int, optional
+        Number of parallel job used for full text retrieval, by default None.
 
     Returns
     -------
@@ -104,18 +104,20 @@ def load_news_gnews_parallel(
 
     # run search
     found_news: List[Dict[str, Any]] = google_news.get_news(keywords)
-    
+
     # define function for parallel article fetching
     def fetch_full_text(url: str) -> Optional[str]:
         try:
             article = newspaper.Article(url=url)
             article.download()
             article.parse()
-            return article.text
+            text: str = article.text
         except Exception as e:
             if use_logs:
                 logger.warning(f"newspaper3k failed with error: {e}")
             return None
+        else:
+            return text
 
     # fetch full text if available
     if override_content:
@@ -134,13 +136,11 @@ def load_news_gnews_parallel(
                         logger.warning(f"newspaper3k failed with error: {e}")
         else:
             full_texts = Parallel(n_jobs=n_jobs, prefer="threads")(
-                delayed(fetch_full_text)(dico["url"]) 
-                for i, dico in enumerate(found_news)
+                delayed(fetch_full_text)(dico["url"]) for i, dico in enumerate(found_news)
             )
             for i, full_text in enumerate(full_texts):
                 if full_text is not None:
                     found_news[i]["full_text"] = full_text
-
 
     # standardize
     if standardize:
@@ -162,14 +162,6 @@ def load_news_gnews_parallel(
 
     # return found news
     return found_news
-
-
-
-
-
-
-
-
 
 
 # TODO: combine with `newspaper3k` to load full article texts
@@ -261,7 +253,7 @@ def load_news_gnews(
                 "content": d["full_text"] if "full_text" in d.keys() else None,
                 "metadata": {
                     "query_engine": "gnews",
-                    "top_image": article.top_image,   #TOFIX: article wrongly referenced
+                    "top_image": article.top_image,  # TOFIX: article wrongly referenced
                     "description": d["description"],
                     "published_date": pd.to_datetime(d["published date"]),
                     "publisher": d["publisher"],

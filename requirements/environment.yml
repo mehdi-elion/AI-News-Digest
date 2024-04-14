@@ -65,4 +65,3 @@ dependencies:
     - librosa
     - cTTS
     - skypilot-nightly[runpod]
-
