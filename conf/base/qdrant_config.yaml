@@ -118,7 +118,7 @@ storage:
     # Note: each optimization job will also use `max_indexing_threads` threads by itself for index building.
     # If null - have no limit and choose dynamically to saturate CPU.
     # If 0 - no optimization threads, optimizations will be disabled.
-    max_optimization_threads: null
+    max_optimization_threads: 0
 
   # Default parameters of HNSW Index. Could be overridden for each collection or named vector individually
   hnsw_index:
