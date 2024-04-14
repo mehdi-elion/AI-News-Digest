@@ -1,3 +1,4 @@
+# mypy: disable-error-code="misc"
 import random
 from copy import deepcopy
 from operator import itemgetter
