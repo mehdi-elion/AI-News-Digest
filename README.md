@@ -1,5 +1,7 @@
 # AI News Digest
 
+[![.github/workflows/ci.yml](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml/badge.svg)](https://github.com/mehdi-elion/AI-News-Digest/actions/workflows/ci.yml)
+
 ## Overview
 
 This is your new Data project, which was generated using cookiecutter.
@@ -15,6 +17,7 @@ In order to get the best out of the template:
 
 ## How to install dependencies
 
+### With Conda
 Declare any dependencies in `src/requirements.txt` for `pip` installation and `src/environment.yml` for `conda` installation.
 
 To install them, run:
@@ -30,11 +33,69 @@ conda env create -f src/environment.yml --force
 conda activate ai_news
 ```
 
+### With uv / pip
+
+Make sure `uv` is installed.
+
+To install the dependencies run:
+
+```bash
+uv pip install -r requirements/requirements.lock
+```
+To install the dev dependencies run:
+
+```bash
+uv pip install -r requirements/dev-requirements.lock
+```
+
+To add and install a new dependencie perform the following steps:
+
+1. Add the dependency to the desired requirement file i-e `requirements/requirements.in`
+
+2. Generate the compiled dependencies file with the command:
+
+```bash
+uv pip compile requirements/requirements.in -o requirements/requirements.txt
+```
+
+3. Install your requirements
+
+```bash
+uv pip install -r requirements/requirements.lock
+```
+
 ## How to run your project
 
+### Local setup
+
+To set up your project locally, you can use [Docker Compose](https://docs.docker.com/compose/).
+Perform the following steps.
+
+1. take a look at `.env.example` then run:
+
+```bash
+cp .env.example .env
+```
+2. Now fill the `.env` with your desired values.
+
+3. Run the following command in the root directory of the project:
+
+```bash
+docker compose up -d
+```
+You can now access `Qdrant` at [http://localhost:6333/dashboard](http://localhost:6333/dashboard).
+
+The `gen-api` service powered by [vLLM](https://docs.vllm.ai/en/latest/https://docs.vllm.ai/en/latest/) will be available at [http://localhost:8000](http://localhost:8000).
+
+The `embed-api` service powered by [TGI](https://huggingface.co/docs/text-generation-inference/index) will be available at [http://localhost:8081](http://localhost:8081).
 
 ## How to test your project
 
+At the root of your project run:
+
+```bash
+pytest
+```
 
 ## Project dependencies
 

@@ -25,6 +25,7 @@ repos:
   - id: ruff
     types_or: [ python, pyi]   # TODO: add jupyter to the list (later)
     args: ['--fix']
+    exclude: '^test'
   # Use ruff as formatter
   - id: ruff-format
     types_or: [ python, pyi]
@@ -39,10 +40,11 @@ repos:
     name: 'detect-secrets-jupyter'
     args: ['--exclude-files', '.*[^i][^p][^y][^n][^b]$', '--exclude-lines', '"(hash|id|image/\w+)":.*']
 
-# - repo: https://github.com/kynan/nbstripout
-#   rev: 0.6.1
-#   hooks:
-#     - id: nbstripout
+- repo: https://github.com/kynan/nbstripout
+  rev: 0.6.1
+  hooks:
+    - id: nbstripout
+      exclude: '[\d]+_.*\.ipynb$'  # ignore notebooks named "xx_***.ipynb"
 
 # TODO: reativate later
 # - repo: https://github.com/mwouts/jupytext
@@ -69,14 +71,7 @@ repos:
         --disallow-incomplete-defs,
         --disallow-untyped-defs,
         ]
-
-- repo: https://github.com/pycqa/pydocstyle
-  rev: 6.3.0
-  hooks:
-  - id: pydocstyle
-    additional_dependencies: ["toml"]
-    args:
-    - --ignore=D100,D203,D405,D104,D416,D212,D213
+    exclude: '^test'
 
 - repo: https://github.com/hadialqattan/pycln
   rev: v2.3.0

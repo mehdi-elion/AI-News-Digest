@@ -1,4 +1,4 @@
-import datetime
+import datetime  # noqa: D100
 import json
 from pathlib import Path
 from typing import Any, Dict, List, Optional
