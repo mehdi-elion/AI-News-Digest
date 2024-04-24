@@ -131,3 +131,29 @@ def _combine_documents(
     """
     doc_strings = [format_document(doc, document_prompt) for doc in docs]
     return document_separator.join(doc_strings)
+
+
+if __name__=="__main__":
+    from openai import OpenAI
+    import os
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    print("OPENROUTER_API_KEY: ", os.environ["OPENROUTER_API_KEY"])
+
+    # gets API Key from environment variable OPENROUTER_API_KEY
+    client = OpenAI(
+        base_url="https://openrouter.ai/api/v1",
+        api_key=os.environ["OPENROUTER_API_KEY"],
+    )
+
+    completion = client.chat.completions.create(
+        model="mistralai/mistral-7b-instruct:free",
+        messages=[
+            {
+                "role": "user",
+                "content": "Write me a poem about Machine Learning",
+            },
+        ],
+    )
+    print(completion.choices[0].message.content)
