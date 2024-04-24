@@ -12,13 +12,16 @@ services:
       - source: qdrant_config
         target: /qdrant/config/config.yaml
     volumes:
-      - ./qdrant_data:/qdrant_data
+      - .data/04_feature/qdrant_data:/qdrant_data
 
   gen_api:
    image: vllm/vllm-openai:latest
    environment:
      - HUGGING_FACE_HUB_TOKEN=${HUGGING_FACE_HUB_TOKEN}
-   command: ["--model", "${GEN_MODEL_ID}"]
+   command: [
+      "--model", "${GEN_MODEL_ID}",
+      "--max-model-len", "20000"
+    ]
    deploy:
      resources:
        reservations:
