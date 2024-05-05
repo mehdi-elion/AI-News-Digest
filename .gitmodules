@@ -1,0 +1,9 @@
+[submodule "conf/base/runpod_tts_api/runpod_tts"]
+	path = conf/base/runpod_tts_api/runpod_tts
+	url = git@github.com:mehdi-elion/runpod_tts.git
+[submodule "runpod_tts"]
+	path = runpod_tts
+	url = git@github.com:mehdi-elion/runpod_tts.git
+[submodule "conf/base/runpod_tts"]
+	path = conf/base/runpod_tts
+	url = git@github.com:mehdi-elion/runpod_tts.git
