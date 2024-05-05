@@ -31,6 +31,7 @@ dependencies:
     - newspaper3k
     - gnews>=0.3.6
     - qdrant-client
+    - runpod
 
     # python utils
     - fire

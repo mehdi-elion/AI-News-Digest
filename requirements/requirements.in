@@ -42,3 +42,4 @@ qdrant-client[fastembed]
 polars
 tomli
 TTS
+runpod

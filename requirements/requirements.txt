@@ -20,6 +20,7 @@ openai
 vllm
 # flash_attn
 qdrant-client
+runpod
 
 umap-learn
 plotly
