@@ -160,3 +160,6 @@ venv.bak/
 
 # tags
 tags
+
+# ttrack mp3 files
+!*.mp3
