@@ -64,4 +64,6 @@ dependencies:
     - soundfile
     - librosa
     - cTTS
-    - skypilot-nightly[runpod]
+    - TTS  # from PyPI
+
+
