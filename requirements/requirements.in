@@ -41,3 +41,4 @@ tifffile
 qdrant-client[fastembed]
 polars
 tomli
+pydantic
