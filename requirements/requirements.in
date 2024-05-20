@@ -42,3 +42,4 @@ qdrant-client[fastembed]
 polars
 tomli
 pydantic
+dlt[duckdb]>=0.4.11
