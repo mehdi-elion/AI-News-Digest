@@ -30,6 +30,7 @@ umap-learn
 deep-learning
 accelerate
 langchain
+langchain-groq
 langchain-community
 sentencepiece
 sentence_transformers
@@ -43,3 +44,4 @@ polars
 tomli
 TTS
 runpod
+fastembed

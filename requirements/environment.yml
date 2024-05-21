@@ -30,7 +30,7 @@ dependencies:
     - newsapi-python
     - newspaper3k
     - gnews>=0.3.6
-    - qdrant-client
+    - qdrant-client[fastembed]
     - runpod
 
     # python utils
@@ -52,6 +52,7 @@ dependencies:
     # deep-learning
     - accelerate
     - langchain
+    - langchain-groq
     - langchain-community
     - sentencepiece
     - sentence_transformers
@@ -66,5 +67,9 @@ dependencies:
     - librosa
     - cTTS
     - TTS  # from PyPI
+
+    - fastembed
+    # - onnxruntime-gpu --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple/
+    # - fastembed-gpu
 
 

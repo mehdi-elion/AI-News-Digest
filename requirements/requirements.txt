@@ -6,6 +6,7 @@ xmltodict
 rich
 arxiv
 langchain
+langchain-groq
 langchain-community
 huggingface_hub
 torch --index-url https://download.pytorch.org/whl/cu121
@@ -19,7 +20,7 @@ accelerate
 openai
 vllm
 # flash_attn
-qdrant-client
+qdrant-client[fastembed]
 runpod
 
 umap-learn
@@ -48,3 +49,7 @@ soundfile
 librosa
 cTTS
 TTS
+
+fastembed
+# onnxruntime-gpu --extra-index-url https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/onnxruntime-cuda-12/pypi/simple/
+# fastembed-gpu
